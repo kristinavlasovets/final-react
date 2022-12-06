@@ -2,6 +2,10 @@ import React, {FC, useState} from 'react';
 import {Box, TextField, Button} from '@material-ui/core';
 import {useAppDispatch} from '../hooks/redux';
 import {registrationThunk} from '../redux/reducers/auth/registrationThunk';
+import {ButtonOriginal} from './Button/ButtonOriginal';
+import {ButtonVariants} from './Button/interface';
+import {ButtonLink} from './Button/ButtonLink';
+import {AppRoutes} from './AppRouter/interface';
 
 export const LoginForm: FC = () => {
 	const [email, setEmail] = useState<string>('');
@@ -28,10 +32,9 @@ export const LoginForm: FC = () => {
 				label="password"
 				variant="outlined"
 			/>
-			<Button color="primary">sign in </Button>
-			<Button onClick={handleRegistration} color="secondary">
-				sign up
-			</Button>
+
+			<ButtonLink text="sign in" path={AppRoutes.SIGNIN} />
+			<ButtonOriginal text="sign up" onClick={handleRegistration} />
 		</Box>
 	);
 };
