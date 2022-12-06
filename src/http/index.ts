@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 
-export const API_URL = 'https://final-nodejs-production.up.railway.app/api';
+import {API_URL} from '../shared/sharedUrls';
 
 const api = axios.create({
 	withCredentials: true,

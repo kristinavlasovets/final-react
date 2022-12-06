@@ -1,9 +1,17 @@
 import React, {FC, useState} from 'react';
 import {Box, TextField, Button} from '@material-ui/core';
+import {useAppDispatch} from '../hooks/redux';
+import {registrationThunk} from '../redux/reducers/auth/registrationThunk';
 
 export const LoginForm: FC = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
+
+	const dispatch = useAppDispatch();
+
+	const handleRegistration = async () => {
+		dispatch(registrationThunk({email, password}));
+	};
 	return (
 		<Box>
 			<TextField
@@ -21,7 +29,9 @@ export const LoginForm: FC = () => {
 				variant="outlined"
 			/>
 			<Button color="primary">sign in </Button>
-			<Button color="secondary">sign up</Button>
+			<Button onClick={handleRegistration} color="secondary">
+				sign up
+			</Button>
 		</Box>
 	);
 };
