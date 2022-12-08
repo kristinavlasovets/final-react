@@ -12,10 +12,17 @@ export const ButtonLink: FC<ButtonLinkProps> = ({
 	type = ButtonTypes.BUTTON,
 	variant = ButtonVariants.OUTLINED,
 	path,
+	extraStyles,
 }) => {
 	return (
-		<Link to={path}>
-			<Button onClick={onClick} type={type} color={color} variant={variant}>
+		<Link to={path} style={{textDecoration: 'none'}}>
+			<Button
+				onClick={onClick}
+				type={type}
+				color={color}
+				variant={variant}
+				sx={{...extraStyles, fontSize: '16px', fontWeight: 600}}
+			>
 				{text}
 			</Button>
 		</Link>

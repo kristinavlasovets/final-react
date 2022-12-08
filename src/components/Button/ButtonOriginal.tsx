@@ -8,9 +8,16 @@ export const ButtonOriginal: FC<ButtonProps> = ({
 	text,
 	type = ButtonTypes.BUTTON,
 	variant = ButtonVariants.OUTLINED,
+	extraStyles,
 }) => {
 	return (
-		<Button onClick={onClick} type={type} color={color} variant={variant}>
+		<Button
+			onClick={onClick}
+			type={type}
+			color={color}
+			variant={variant}
+			sx={{...extraStyles}}
+		>
 			{text}
 		</Button>
 	);

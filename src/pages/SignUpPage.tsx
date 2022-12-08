@@ -1,10 +1,22 @@
-import React from 'react';
-import {LoginForm} from '../components/LoginForm';
+import React, {FC} from 'react';
 
-export const SignUpPage = () => {
+import {SignForm} from '../components/SignForm/SignForm';
+import {registrationInput} from '../services/AuthService';
+import {registrationThunk} from '../redux/reducers/auth/thunks/registrationThunk';
+
+import {Box} from '@mui/material';
+import {useAppDispatch} from '../hooks/redux';
+
+export const SignUpPage: FC = () => {
+	const dispatch = useAppDispatch();
+
+	const signup = (data: registrationInput) => {
+		const {email, password} = data;
+		dispatch(registrationThunk({email, password}));
+	};
 	return (
-		<>
-			<LoginForm></LoginForm>
-		</>
+		<Box sx={{mt: '20vh', w: 700, display: 'flex', justifyContent: 'center'}}>
+			<SignForm isSignup={true} signFormSubmit={signup} />
+		</Box>
 	);
 };

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IUser} from '../../../models/IUser';
-import {registrationThunk} from './registrationThunk';
+import {registrationThunk} from './thunks/registrationThunk';
 
 interface AuthState {
 	user: IUser;

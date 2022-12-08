@@ -1,3 +1,5 @@
+import {SxProps} from '@mui/material';
+
 export enum ButtonVariants {
 	CONTAINED = 'contained',
 	OUTLINED = 'outlined',
@@ -24,6 +26,7 @@ export interface ButtonProps {
 	variant?: ButtonVariants;
 	type?: ButtonTypes;
 	color?: ButtonColors;
+	extraStyles?: SxProps;
 }
 
 export interface ButtonLinkProps extends ButtonProps {

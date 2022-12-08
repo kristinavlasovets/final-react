@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import {Box, TextField, Button} from '@material-ui/core';
 import {useAppDispatch} from '../hooks/redux';
-import {registrationThunk} from '../redux/reducers/auth/registrationThunk';
+import {registrationThunk} from '../redux/reducers/auth/thunks/registrationThunk';
 import {ButtonOriginal} from './Button/ButtonOriginal';
 import {ButtonVariants} from './Button/interface';
 import {ButtonLink} from './Button/ButtonLink';
