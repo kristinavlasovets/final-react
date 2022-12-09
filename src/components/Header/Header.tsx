@@ -18,10 +18,12 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import {ButtonLink} from '../Button/ButtonLink';
 
+import {ButtonLink} from '../Button/ButtonLink';
 import {AppRoutes} from '../AppRouter/interface';
 import {ButtonVariants} from '../Button/interface';
+import {useAppDispatch} from '../../hooks/redux';
+import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
 
 export const Header = () => {
 	const Search = styled('div')(({theme}) => ({
@@ -71,6 +73,11 @@ export const Header = () => {
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const dispatch = useAppDispatch();
+	const signout = () => {
+		dispatch(logoutThunk());
 	};
 	return (
 		<Box sx={{flexGrow: 1}}>
@@ -169,7 +176,7 @@ export const Header = () => {
 								</ListItemIcon>
 								Settings
 							</MenuItem>
-							<MenuItem>
+							<MenuItem onClick={signout}>
 								<ListItemIcon>
 									<Logout fontSize="small" />
 								</ListItemIcon>

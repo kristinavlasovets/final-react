@@ -17,9 +17,9 @@ export default class AuthService {
 	}
 
 	static async login(
-		email: string,
-		password: string
+		data: registrationInput
 	): Promise<AxiosResponse<AuthResponse>> {
+		const {email, password} = data;
 		return api.post(sharedAuthUrls.LOGIN_URL, {email, password});
 	}
 
