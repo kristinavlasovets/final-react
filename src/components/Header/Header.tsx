@@ -164,13 +164,24 @@ export const Header = () => {
 							<MenuItem>
 								<Avatar /> My account
 							</MenuItem>
-							<Divider />
+
 							<MenuItem>
-								<ListItemIcon>
+								<PersonAdd fontSize="small" />
+								{/* <ListItemIcon>
 									<PersonAdd fontSize="small" />
 								</ListItemIcon>
-								Add another account
+								Create a review */}
+								<ButtonLink
+									extraStyles={{
+										width: '100%',
+										height: '20px',
+									}}
+									text="Create a review"
+									path={AppRoutes.REVIEW_CREATE}
+									variant={ButtonVariants.TEXT}
+								/>
 							</MenuItem>
+							<Divider />
 							<MenuItem>
 								<ListItemIcon>
 									<Settings fontSize="small" />
