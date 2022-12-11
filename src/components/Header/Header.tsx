@@ -83,14 +83,15 @@ export const Header = () => {
 		<Box sx={{flexGrow: 1}}>
 			<AppBar position="static" color="transparent">
 				<Toolbar>
-					<Typography
-						variant="h6"
-						noWrap
-						component="div"
-						sx={{display: {xs: 'none', sm: 'block'}}}
-					>
-						ROTTEN
-					</Typography>
+					<ButtonLink
+						extraStyles={{
+							width: '150px',
+							height: '50px',
+						}}
+						text="ROTTEN"
+						path={AppRoutes.HOME}
+						variant={ButtonVariants.TEXT}
+					/>
 
 					<Search>
 						<SearchIconWrapper>
