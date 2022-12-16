@@ -6,3 +6,11 @@ export const sharedAuthUrls = {
 	LOGIN_URL: '/login',
 	LOGOUT_URL: '/logout',
 };
+
+export const sharedReviewsUrls = {
+	REVIEWS_URL: '/reviews',
+};
+
+export const sharedArtPiecesUrls = {
+	ARTPIECES_URL: '/art-pieces',
+};
