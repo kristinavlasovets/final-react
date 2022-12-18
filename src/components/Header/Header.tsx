@@ -22,7 +22,7 @@ import Logout from '@mui/icons-material/Logout';
 import {ButtonLink} from '../Button/ButtonLink';
 import {AppRoutes} from '../AppRouter/interface';
 import {ButtonVariants} from '../Button/interface';
-import {useAppDispatch} from '../../hooks/redux';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
 
 export const Header = () => {
@@ -56,7 +56,6 @@ export const Header = () => {
 		color: 'inherit',
 		'& .MuiInputBase-input': {
 			padding: theme.spacing(1, 1, 1, 0),
-			// vertical padding + font size from searchIcon
 			paddingLeft: `calc(1em + ${theme.spacing(4)})`,
 			transition: theme.transitions.create('width'),
 			width: '100%',
@@ -66,6 +65,7 @@ export const Header = () => {
 		},
 	}));
 
+	const {isAuth} = useAppSelector((state) => state.authReducer);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -79,6 +79,7 @@ export const Header = () => {
 	const signout = () => {
 		dispatch(logoutThunk());
 	};
+
 	return (
 		<Box sx={{flexGrow: 1}}>
 			<AppBar position="static" color="transparent">
@@ -105,11 +106,13 @@ export const Header = () => {
 
 					<Box sx={{flexGrow: 1}} />
 					<Box sx={{display: {xs: 'none', md: 'flex'}}}>
-						<ButtonLink
-							text="sign in"
-							path={AppRoutes.SIGNIN}
-							variant={ButtonVariants.CONTAINED}
-						/>
+						{!isAuth && (
+							<ButtonLink
+								text="sign in"
+								path={AppRoutes.SIGNIN}
+								variant={ButtonVariants.CONTAINED}
+							/>
+						)}
 
 						<Tooltip title="Account settings">
 							<IconButton
@@ -192,7 +195,7 @@ export const Header = () => {
 								<ListItemIcon>
 									<Logout fontSize="small" />
 								</ListItemIcon>
-								Logout
+								Sign out
 							</MenuItem>
 						</Menu>
 					</Box>

@@ -1,5 +1,5 @@
-import React, {ChangeEvent, useState} from 'react';
-import ReactMarkdown from 'react-markdown';
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {useAppSelector} from '../../hooks/redux';
 
 import {
 	Box,
@@ -17,13 +17,14 @@ import Autocomplete, {createFilterOptions} from '@mui/material/Autocomplete';
 
 import {ButtonOriginal} from '../Button/ButtonOriginal';
 import {ButtonTypes} from '../Button/interface';
-import {useAppSelector} from '../../hooks/redux';
+import {ArtPieceOptionType} from './interface';
 import api from '../../http';
 import {sharedArtPiecesUrls, sharedReviewsUrls} from '../../shared/sharedUrls';
 import {IArtPiece} from '../../models/IArtPiece';
 import {ImageBlock} from '../ImageBlock/ImageBlock';
+import ArtPieceService from '../../services/ArtPieceService';
 
-const filter = createFilterOptions<FilmOptionType>();
+const filter = createFilterOptions<ArtPieceOptionType>();
 
 export const ReviewCreateForm = () => {
 	const artGroupOptions = ['Books', 'Games', 'Movies'];
@@ -31,8 +32,9 @@ export const ReviewCreateForm = () => {
 	const {user} = useAppSelector((state) => state.authReducer);
 
 	const [title, setTitle] = useState<string>('');
-	const [artPiece, setArtPiece] = useState<FilmOptionType | null>(null);
-	const [artPieces, setArtPieces] = useState<IArtPiece[]>([{name: 'Grinch'}]);
+	const [image, setImage] = useState<string>('');
+	const [artPiece, setArtPiece] = useState<ArtPieceOptionType | null>(null);
+	const [artPieces, setArtPieces] = useState<IArtPiece[]>([]);
 	const [artGroup, setArtGroup] = useState<string | null>(null);
 	const [text, setText] = useState<string>('');
 	const [grade, setGrade] = useState<string>('');
@@ -49,39 +51,38 @@ export const ReviewCreateForm = () => {
 		setTags((tags) => tags.filter((tag) => tag !== tagToDelete));
 	};
 
+	const fetchArtPieces = async () => {
+		const response = await ArtPieceService.getAllArtPieces();
+		setArtPieces(response.data);
+	};
+
 	const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
-		console.log('post request');
-		console.log(title);
-		console.log(artPiece);
-		console.log(artGroup);
-		console.log(tags);
-		console.log(text);
-		console.log(user.id);
-		console.log(grade);
+
+		const newArtPiece = await ArtPieceService.createArtPiece(artPiece!.name);
+
 		const response = await api.post(sharedReviewsUrls.REVIEWS_URL, {
 			title: title,
-			artPiece: artPiece,
+			artPiece: newArtPiece.data._id,
 			group: artGroup,
 			tags: tags,
 			text: text,
-			image: '',
+			image: image,
 			author: user.id,
 			grade: grade,
 		});
 	};
 
-	const handleArtPieces = async () => {
-		const response = await api.post(sharedArtPiecesUrls.ARTPIECES_URL, {
-			name: artPiece,
-		});
-	};
+	useEffect(() => {
+		fetchArtPieces();
+	}, []);
 
 	return (
 		<Box
 			component="form"
 			onSubmit={handleSubmit}
 			sx={{
+				m: '5vh auto',
 				width: 800,
 				maxWidth: 1000,
 				display: 'flex',
@@ -97,8 +98,11 @@ export const ReviewCreateForm = () => {
 				value={title}
 				color="error"
 			/>
-			<ImageBlock />
+			<ImageBlock setImage={setImage} />
 			<Autocomplete
+				freeSolo={true}
+				sx={{width: '100%'}}
+				onKeyPress={(e) => e.key === 'Enter' && e.preventDefault()}
 				value={artPiece}
 				includeInputInList={true}
 				onChange={(event, newValue) => {
@@ -118,7 +122,7 @@ export const ReviewCreateForm = () => {
 					const filtered = filter(options, params);
 
 					const {inputValue} = params;
-					// Suggest the creation of a new value
+
 					const isExisting = options.some(
 						(option) => inputValue === option.name
 					);
@@ -127,7 +131,6 @@ export const ReviewCreateForm = () => {
 							inputValue,
 							name: `Add "${inputValue}"`,
 						});
-						// setArtPieces((prev) => [...prev, {name: inputValue}]);
 					}
 
 					return filtered;
@@ -135,6 +138,7 @@ export const ReviewCreateForm = () => {
 				selectOnFocus
 				clearOnBlur
 				options={artPieces}
+				isOptionEqualToValue={(option, value) => option.name === value.name}
 				getOptionLabel={(option) => {
 					if (typeof option === 'string') {
 						return option;
@@ -145,12 +149,10 @@ export const ReviewCreateForm = () => {
 					return option.name;
 				}}
 				renderOption={(props, option) => <li {...props}>{option.name}</li>}
-				sx={{width: '100%'}}
 				renderInput={(params) => (
 					<TextField {...params} label="Art piece" color="error" />
 				)}
 			/>
-
 			<Autocomplete
 				disablePortal
 				value={artGroup}
@@ -179,11 +181,9 @@ export const ReviewCreateForm = () => {
 				value={text}
 				color="error"
 			/>
-			<ReactMarkdown children={text} />
-
 			<Divider sx={{m: '40px auto', width: '100%'}} />
-
 			<Autocomplete
+				onKeyPress={(e) => e.key === 'Enter' && e.preventDefault()}
 				fullWidth
 				options={tagOptions}
 				isOptionEqualToValue={(option, value) => option === value}
@@ -206,13 +206,11 @@ export const ReviewCreateForm = () => {
 					}
 				}}
 			/>
-
 			<Stack sx={{m: '10px auto', width: '100%'}} direction="row" spacing={1}>
 				{tags.map((tag) => (
 					<Chip key={tag} label={tag} onDelete={() => handleDelete(tag)} />
 				))}
 			</Stack>
-
 			<InputLabel sx={{m: '10px'}} id="grade-label">
 				Your grade
 			</InputLabel>
@@ -229,7 +227,7 @@ export const ReviewCreateForm = () => {
 					</MenuItem>
 				))}
 			</Select>
-
+			<Divider sx={{m: '40px auto', width: '100%'}} />
 			<ButtonOriginal
 				extraStyles={{
 					m: '20px auto',
@@ -241,8 +239,3 @@ export const ReviewCreateForm = () => {
 		</Box>
 	);
 };
-
-interface FilmOptionType {
-	inputValue?: string;
-	name: string;
-}

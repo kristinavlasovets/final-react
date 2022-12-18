@@ -7,6 +7,7 @@ export const ReviewCreatePage = () => {
 	return (
 		<Box
 			sx={{
+				m: '10vh auto',
 				width: '100%',
 				display: 'flex',
 				flexDirection: 'column',
@@ -15,14 +16,14 @@ export const ReviewCreatePage = () => {
 		>
 			<Typography
 				sx={{
-					mt: '20px',
-					mb: '20px',
 					width: '100%',
 					textAlign: 'center',
 					fontSize: '32px',
+					textTransform: 'uppercase',
+					color: 'gray',
 				}}
 			>
-				Create a REVIEW
+				Create a review
 			</Typography>
 			<Box sx={{margin: '0 auto'}}>
 				<ReviewCreateForm />

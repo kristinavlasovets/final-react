@@ -1,10 +1,12 @@
-import {Box, Typography} from '@mui/material';
+import React, {useState, FC} from 'react';
 import axios from 'axios';
-import React, {useState} from 'react';
 
-export const ImageBlock = () => {
+import {Box, Typography} from '@mui/material';
+import {ImageBlockProps} from './interface';
+import {uploadImage} from '../../services/ImageDropService';
+
+export const ImageBlock: FC<ImageBlockProps> = ({setImage}) => {
 	const [drag, setDrag] = useState(false);
-	const [imageSelected, setImageSelected] = useState<string | Blob>('');
 
 	const dragStartHandler = (e: React.DragEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -15,24 +17,12 @@ export const ImageBlock = () => {
 		setDrag(false);
 	};
 
-	const uploadImage = async () => {
-		const formData = new FormData();
-		formData.append('file', imageSelected);
-		formData.append('upload_preset', 'mauuttir');
-
-		const response = await axios.post(
-			'https://api.cloudinary.com/v1_1/kvlasovets/image/upload',
-			formData
-		);
-		console.log(response);
-	};
-
-	const onDropHandler = (e: React.DragEvent<HTMLInputElement>) => {
+	const onDropHandler = async (e: React.DragEvent<HTMLInputElement>) => {
 		e.preventDefault();
-		const poster = e.dataTransfer.files[0];
-		console.log(poster);
-		setImageSelected(poster);
-		uploadImage();
+		let file = e.dataTransfer.files[0];
+		const droppedImage = await uploadImage(file);
+		setImage(droppedImage.secure_url);
+
 		setDrag(false);
 	};
 

@@ -24,12 +24,7 @@ export const ReviewCard: FC = () => {
 				title="Troll"
 				subheader="December, 10 2022"
 			/>
-			<CardMedia
-				component="img"
-				height="194"
-				image="https://www.behance.net/gallery/128883869/Rhude?tracking_source=search_projects"
-				alt="masterpiece"
-			/>
+			<CardMedia component="img" height="194" image="" alt="masterpiece" />
 			<CardContent>
 				<Typography variant="body2" color="error">
 					While light on narrative, it’s when director Roar Uthaug embraces the
