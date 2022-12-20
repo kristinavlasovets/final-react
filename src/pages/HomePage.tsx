@@ -1,14 +1,28 @@
-import React from 'react';
+import React, {FC, useEffect, useState} from 'react';
 
 import {Box, Typography} from '@mui/material';
 import {ReviewCard} from '../components/ReviewCard/ReviewCard';
+import {IReview} from '../models/IReview';
+import {getAllReviews} from '../services/ReviewService';
 
-export const HomePage = () => {
+export const HomePage: FC = () => {
+	const [reviews, setReviews] = useState<IReview[]>([]);
+
+	const fetchReviews = async () => {
+		const response = await getAllReviews();
+		setReviews(response.data);
+	};
+	useEffect(() => {
+		fetchReviews();
+	}, []);
+
+	console.log(reviews);
+
 	return (
 		<Box
 			sx={{
-				mt: '20vh',
-				w: 700,
+				mt: '10vh',
+				width: '100%',
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
@@ -21,14 +35,17 @@ export const HomePage = () => {
 			</Typography>
 			<Box
 				sx={{
-					m: '50px',
+					m: '20px auto',
+					width: '90vw',
+					maxWidth: '95vw',
 					display: 'flex',
-					justifyContent: 'space-between',
+					flexWrap: 'wrap',
+					justifyContent: 'space-evenly',
 				}}
 			>
-				<ReviewCard />
-				<ReviewCard />
-				<ReviewCard />
+				{reviews.map((review) => (
+					<ReviewCard review={review} key={review._id} isFull={false} />
+				))}
 			</Box>
 		</Box>
 	);

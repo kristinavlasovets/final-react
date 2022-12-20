@@ -4,6 +4,7 @@ import {HomePage} from '../../pages/HomePage';
 import {NetworkSignUpPage} from '../../pages/NetworkSignUpPage';
 import {NotFoundPage} from '../../pages/NotFoundPage';
 import {ReviewCreatePage} from '../../pages/ReviewCreatePage';
+import {ReviewFullPage} from '../../pages/ReviewFullPage';
 import {SignInPage} from '../../pages/SignInPage';
 import {SignUpPage} from '../../pages/SignUpPage';
 
@@ -19,6 +20,7 @@ export enum AppRoutes {
 	SIGNUP = '/signup',
 	SIGNIN = '/signin',
 	REVIEW_CREATE = '/review-create',
+	REVIEW_FULL = '/review-full/:id',
 }
 
 export const publicAppRoutes: IRoute[] = [
@@ -28,4 +30,5 @@ export const publicAppRoutes: IRoute[] = [
 	{path: AppRoutes.SIGNUP, element: SignUpPage},
 	{path: AppRoutes.SIGNIN, element: SignInPage},
 	{path: AppRoutes.REVIEW_CREATE, element: ReviewCreatePage},
+	{path: AppRoutes.REVIEW_FULL, element: ReviewFullPage},
 ];
