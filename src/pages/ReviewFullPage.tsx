@@ -18,11 +18,10 @@ export const ReviewFullPage = () => {
 		setExactReview(response.data);
 		setIsLoading(false);
 	};
+
 	useEffect(() => {
 		fetchExactReview();
 	}, []);
-
-	console.log(exactReview);
 
 	if (isLoading) {
 		return <div>is Loading</div>;

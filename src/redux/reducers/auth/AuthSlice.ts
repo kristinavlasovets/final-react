@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Action} from '@remix-run/router';
 import {IUser} from '../../../models/IUser';
 import {loginThunk} from './thunks/loginThunk';
 import {logoutThunk} from './thunks/logoutThunk';
@@ -21,7 +22,18 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
-	reducers: {},
+	reducers: {
+		like: (state, action: PayloadAction<string>) => {
+			if (state.user.likedReviews.includes(action.payload)) {
+				state.user.likedReviews.splice(
+					state.user.likedReviews.findIndex((id) => id === action.payload),
+					1
+				);
+			} else {
+				state.user.likedReviews.push(action.payload);
+			}
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(
 			registrationThunk.fulfilled,
@@ -85,5 +97,7 @@ export const authSlice = createSlice({
 		});
 	},
 });
+
+export const {like} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -180,7 +180,11 @@ export const Header = () => {
 										height: '20px',
 									}}
 									text="Create a review"
-									path={AppRoutes.REVIEW_CREATE}
+									path={
+										isAuth
+											? `${AppRoutes.REVIEW_CREATE}`
+											: `${AppRoutes.SIGNIN}`
+									}
 									variant={ButtonVariants.TEXT}
 								/>
 							</MenuItem>

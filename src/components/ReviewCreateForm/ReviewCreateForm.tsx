@@ -23,6 +23,8 @@ import {sharedArtPiecesUrls, sharedReviewsUrls} from '../../shared/sharedUrls';
 import {IArtPiece} from '../../models/IArtPiece';
 import {ImageBlock} from '../ImageBlock/ImageBlock';
 import ArtPieceService from '../../services/ArtPieceService';
+import {useNavigate} from 'react-router-dom';
+import {AppRoutes} from '../AppRouter/interface';
 
 const filter = createFilterOptions<ArtPieceOptionType>();
 
@@ -42,6 +44,8 @@ export const ReviewCreateForm = () => {
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string | null>(null);
 
+	const navigate = useNavigate();
+
 	const handleChange = (event: SelectChangeEvent<typeof grade>) => {
 		const value = event.target.value;
 		setGrade(value);
@@ -56,14 +60,26 @@ export const ReviewCreateForm = () => {
 		setArtPieces(response.data);
 	};
 
+	let newArtPiece = {} as IArtPiece;
+	const candidateArtPiece = artPieces.find(
+		(item) => item.name === artPiece?.name
+	);
+
 	const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 
-		const newArtPiece = await ArtPieceService.createArtPiece(artPiece!.name);
+		if (candidateArtPiece) {
+			newArtPiece = candidateArtPiece;
+		} else {
+			const createdArtPiece = await ArtPieceService.createArtPiece(
+				artPiece!.name
+			);
+			newArtPiece = createdArtPiece.data;
+		}
 
 		const response = await api.post(sharedReviewsUrls.REVIEWS_URL, {
 			title: title,
-			artPiece: newArtPiece.data._id,
+			artPiece: newArtPiece._id,
 			group: artGroup,
 			tags: tags,
 			text: text,
@@ -71,6 +87,9 @@ export const ReviewCreateForm = () => {
 			author: user.id,
 			grade: grade,
 		});
+
+		navigate(AppRoutes.HOME);
+		return;
 	};
 
 	useEffect(() => {

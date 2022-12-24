@@ -16,8 +16,6 @@ export const HomePage: FC = () => {
 		fetchReviews();
 	}, []);
 
-	console.log(reviews);
-
 	return (
 		<Box
 			sx={{
@@ -44,7 +42,12 @@ export const HomePage: FC = () => {
 				}}
 			>
 				{reviews.map((review) => (
-					<ReviewCard review={review} key={review._id} isFull={false} />
+					<ReviewCard
+						review={review}
+						key={review._id}
+						isFull={false}
+						setReviews={setReviews}
+					/>
 				))}
 			</Box>
 		</Box>

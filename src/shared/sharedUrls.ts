@@ -14,6 +14,10 @@ export const sharedReviewsUrls = {
 	REVIEWS_URL: '/reviews',
 };
 
+export const sharedLikesUrls = {
+	LIKES_URL: '/users/likes',
+};
+
 export const sharedArtPiecesUrls = {
 	ARTPIECES_URL: '/art-pieces',
 	NEW_ARTPIECE_URL: '/art-pieces/new',

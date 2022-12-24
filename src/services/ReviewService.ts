@@ -40,8 +40,8 @@ export const getExactReview = async (
 	return api.get(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
 };
 
-export const likeReview = async (
-	id: string
-): Promise<AxiosResponse<IReview>> => {
-	return api.post(sharedReviewsUrls.REVIEWS_URL + `/likes/${id}`);
-};
+// export const likeReview = async (
+// 	id: string
+// ): Promise<AxiosResponse<IReview>> => {
+// 	return api.post(sharedReviewsUrls.REVIEWS_URL + `/likes/${id}`);
+// };
