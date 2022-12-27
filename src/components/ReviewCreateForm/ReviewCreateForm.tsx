@@ -57,7 +57,7 @@ export const ReviewCreateForm = () => {
 		const response = await ArtPieceService.getAllArtPieces();
 		setArtPieces(response.data);
 	};
-	console.log(artPieces.find((item) => item.name === 'Lola'));
+
 	const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 		let newArtPiece = {} as IArtPiece;

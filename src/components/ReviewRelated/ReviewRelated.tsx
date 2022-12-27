@@ -17,7 +17,6 @@ export const ReviewRelated: FC<ReviewRelatedProps> = ({exactReview}) => {
 		fetchRelatedReviews();
 	}, []);
 
-	console.log(relatedReviews);
 	return (
 		<Box>
 			{relatedReviews.map((review) => (

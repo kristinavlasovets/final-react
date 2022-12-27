@@ -6,6 +6,7 @@ import {logoutThunk} from './thunks/logoutThunk';
 import {registrationThunk} from './thunks/registrationThunk';
 
 interface AuthState {
+	mode: 'light' | 'dark';
 	user: IUser;
 	isAuth: boolean;
 	isLoading: boolean;
@@ -13,6 +14,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
+	mode: 'light',
 	user: {} as IUser,
 	isAuth: false,
 	isLoading: false,
@@ -23,6 +25,9 @@ export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
+		setMode: (state) => {
+			state.mode = state.mode === 'light' ? 'dark' : 'light';
+		},
 		like: (state, action: PayloadAction<string>) => {
 			if (state.user.likedReviews.includes(action.payload)) {
 				state.user.likedReviews.splice(
@@ -98,6 +103,6 @@ export const authSlice = createSlice({
 	},
 });
 
-export const {like} = authSlice.actions;
+export const {like, setMode} = authSlice.actions;
 
 export default authSlice.reducer;

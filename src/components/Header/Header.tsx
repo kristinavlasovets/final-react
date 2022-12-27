@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {styled, alpha} from '@mui/material/styles';
+import {styled, alpha, useTheme} from '@mui/material/styles';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -24,8 +24,16 @@ import {AppRoutes} from '../AppRouter/interface';
 import {ButtonVariants} from '../Button/interface';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
+import {DarkMode, LightMode} from '@mui/icons-material';
+import {setMode} from '../../redux/reducers/auth/AuthSlice';
 
 export const Header = () => {
+	const theme = useTheme();
+
+	const handleTheme = () => {
+		dispatch(setMode());
+	};
+
 	const Search = styled('div')(({theme}) => ({
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
@@ -113,6 +121,14 @@ export const Header = () => {
 								variant={ButtonVariants.CONTAINED}
 							/>
 						)}
+
+						<IconButton onClick={handleTheme}>
+							{theme.palette.mode === 'dark' ? (
+								<DarkMode sx={{fontSize: '25px'}} />
+							) : (
+								<LightMode sx={{fontSize: '25px'}} />
+							)}
+						</IconButton>
 
 						<Tooltip title="Account settings">
 							<IconButton

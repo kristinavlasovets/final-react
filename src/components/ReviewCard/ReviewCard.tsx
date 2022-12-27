@@ -55,7 +55,6 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 		creationDate,
 	} = review;
 
-	// console.log(review);
 	useEffect(() => {
 		let totalNumber: number = +review.artPiece.totalRating!;
 		setValue(totalNumber!);
@@ -99,7 +98,6 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 		userId: string
 	) => {
 		const response = await rateArtPieces(star, artPieceId, userId);
-		console.log(response);
 	};
 
 	return (
@@ -158,7 +156,12 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						precision={1}
 						onChange={(event, newValue) => {
 							setValue(newValue);
-							handleRate(newValue!, artPiece!._id!, user.id);
+							// handleRate(newValue!, artPiece!._id!, user.id);
+							{
+								isAuth
+									? handleRate(newValue!, artPiece!._id!, user.id)
+									: handleRedirect();
+							}
 						}}
 						onChangeActive={(event, newHover) => {
 							setHover(newHover);
