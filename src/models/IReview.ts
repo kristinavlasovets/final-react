@@ -7,7 +7,7 @@ export interface IReview {
 	title: string;
 	image: string;
 	artPiece: IArtPiece;
-	group: string;
+	artGroup: string;
 	text: string;
 	grade: string;
 	tags: string[];

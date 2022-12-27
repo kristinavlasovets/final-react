@@ -17,16 +17,14 @@ import Autocomplete, {createFilterOptions} from '@mui/material/Autocomplete';
 
 import {ButtonOriginal} from '../Button/ButtonOriginal';
 import {ButtonTypes} from '../Button/interface';
-import {ArtPieceOptionType} from './interface';
-import api from '../../http';
-import {sharedArtPiecesUrls, sharedReviewsUrls} from '../../shared/sharedUrls';
 import {IArtPiece} from '../../models/IArtPiece';
 import {ImageBlock} from '../ImageBlock/ImageBlock';
 import ArtPieceService from '../../services/ArtPieceService';
 import {useNavigate} from 'react-router-dom';
 import {AppRoutes} from '../AppRouter/interface';
+import {createReviews} from '../../services/ReviewService';
 
-const filter = createFilterOptions<ArtPieceOptionType>();
+const filter = createFilterOptions<IArtPiece>();
 
 export const ReviewCreateForm = () => {
 	const artGroupOptions = ['Books', 'Games', 'Movies'];
@@ -35,7 +33,7 @@ export const ReviewCreateForm = () => {
 
 	const [title, setTitle] = useState<string>('');
 	const [image, setImage] = useState<string>('');
-	const [artPiece, setArtPiece] = useState<ArtPieceOptionType | null>(null);
+	const [artPiece, setArtPiece] = useState<IArtPiece | null>(null);
 	const [artPieces, setArtPieces] = useState<IArtPiece[]>([]);
 	const [artGroup, setArtGroup] = useState<string | null>(null);
 	const [text, setText] = useState<string>('');
@@ -59,28 +57,28 @@ export const ReviewCreateForm = () => {
 		const response = await ArtPieceService.getAllArtPieces();
 		setArtPieces(response.data);
 	};
-
-	let newArtPiece = {} as IArtPiece;
-	const candidateArtPiece = artPieces.find(
-		(item) => item.name === artPiece?.name
-	);
-
+	console.log(artPieces.find((item) => item.name === 'Lola'));
 	const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
+		let newArtPiece = {} as IArtPiece;
+
+		const candidateArtPiece = artPieces.find(
+			(item) => item.name === artPiece?.name
+		);
 
 		if (candidateArtPiece) {
 			newArtPiece = candidateArtPiece;
 		} else {
 			const createdArtPiece = await ArtPieceService.createArtPiece(
-				artPiece!.name
+				artPiece!.name!
 			);
 			newArtPiece = createdArtPiece.data;
 		}
 
-		const response = await api.post(sharedReviewsUrls.REVIEWS_URL, {
+		const response = await createReviews({
 			title: title,
-			artPiece: newArtPiece._id,
-			group: artGroup,
+			artPiece: newArtPiece!._id!,
+			artGroup: artGroup,
 			tags: tags,
 			text: text,
 			image: image,

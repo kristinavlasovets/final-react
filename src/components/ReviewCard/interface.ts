@@ -5,4 +5,5 @@ export interface ReviewCardProps {
 	review: IReview;
 	isFull?: boolean;
 	setReviews?: Dispatch<SetStateAction<IReview[]>>;
+	handleFullLike?: () => void;
 }

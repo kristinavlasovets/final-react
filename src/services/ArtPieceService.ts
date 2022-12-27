@@ -14,3 +14,15 @@ export default class ArtPieceService {
 		return api.get<IArtPiece[]>(sharedArtPiecesUrls.ARTPIECES_URL);
 	}
 }
+
+export const rateArtPieces = async (
+	star: number,
+	artPieceId: string,
+	userId: string
+): Promise<AxiosResponse<IArtPiece>> => {
+	return api.put<IArtPiece>(sharedArtPiecesUrls.ARTPIECES_RATING_URL, {
+		star,
+		artPieceId,
+		userId,
+	});
+};

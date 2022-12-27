@@ -8,7 +8,7 @@ interface createReviewInput {
 	title: string;
 	image: string;
 	artPiece: string;
-	artGroup: string;
+	artGroup: string | null;
 	text: string;
 	grade: string;
 	tags: string[];
@@ -19,14 +19,14 @@ export const createReviews = async (
 ): Promise<AxiosResponse<IReview>> => {
 	const {author, title, image, artPiece, artGroup, text, grade, tags} = data;
 	return api.post(sharedReviewsUrls.REVIEWS_URL, {
-		author,
 		title,
-		image,
 		artPiece,
 		artGroup,
-		text,
-		grade,
 		tags,
+		text,
+		image,
+		author,
+		grade,
 	});
 };
 
@@ -40,8 +40,8 @@ export const getExactReview = async (
 	return api.get(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
 };
 
-// export const likeReview = async (
-// 	id: string
-// ): Promise<AxiosResponse<IReview>> => {
-// 	return api.post(sharedReviewsUrls.REVIEWS_URL + `/likes/${id}`);
-// };
+export const getRelatedReviews = async (): Promise<
+	AxiosResponse<IReview[]>
+> => {
+	return api.get(sharedReviewsUrls.REVIEWS_URL);
+};

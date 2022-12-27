@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import {
@@ -27,13 +27,15 @@ import {likeReview} from '../../services/UserService';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {useNavigate} from 'react-router-dom';
 import {like} from '../../redux/reducers/auth/AuthSlice';
+import {rateArtPieces} from '../../services/ArtPieceService';
 
 export const ReviewCard: FC<ReviewCardProps> = ({
 	review,
 	isFull = false,
 	setReviews,
+	handleFullLike,
 }) => {
-	const [value, setValue] = React.useState<number | null>(2);
+	const [value, setValue] = React.useState<number | null>(null);
 	const [hover, setHover] = React.useState(-1);
 	const {user, isAuth} = useAppSelector((state) => state.authReducer);
 	const navigate = useNavigate();
@@ -45,7 +47,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 		title,
 		image,
 		artPiece,
-		group,
+		artGroup,
 		text,
 		grade,
 		tags,
@@ -53,13 +55,19 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 		creationDate,
 	} = review;
 
+	// console.log(review);
+	useEffect(() => {
+		let totalNumber: number = +review.artPiece.totalRating!;
+		setValue(totalNumber!);
+	}, []);
+
 	const handleTag = () => {
 		console.log(tags);
 	};
 
 	const handleLike = async () => {
 		dispatch(like(review._id));
-		if (setReviews) {
+		if (setReviews && !isFull) {
 			setReviews((prev) => {
 				const currReview = prev.find((item) => item._id === review._id);
 				if (currReview!.likes.includes(user.id)) {
@@ -74,6 +82,9 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 			});
 		}
 
+		if (isFull) {
+			handleFullLike!();
+		}
 		await likeReview(review?._id, user.id);
 	};
 
@@ -82,12 +93,24 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 		return;
 	};
 
+	const handleRate = async (
+		star: number,
+		artPieceId: string,
+		userId: string
+	) => {
+		const response = await rateArtPieces(star, artPieceId, userId);
+		console.log(response);
+	};
+
 	return (
 		<Card
 			sx={{
+				maxHeight: isFull ? 'fit-content' : 800,
+				height: 'fit-content',
 				maxWidth: isFull ? '90vw' : 500,
 				width: isFull ? 1000 : 450,
 				mb: '30px',
+				m: isFull ? '45px' : '',
 			}}
 		>
 			<CardMedia
@@ -135,6 +158,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						precision={1}
 						onChange={(event, newValue) => {
 							setValue(newValue);
+							handleRate(newValue!, artPiece!._id!, user.id);
 						}}
 						onChangeActive={(event, newHover) => {
 							setHover(newHover);
@@ -173,7 +197,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						<Chip
 							sx={{p: '15px', fontSize: '18px'}}
 							variant="outlined"
-							label={group}
+							label={artGroup}
 						/>
 					</Divider>
 				) : (

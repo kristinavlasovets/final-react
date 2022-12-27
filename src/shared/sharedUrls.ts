@@ -21,4 +21,5 @@ export const sharedLikesUrls = {
 export const sharedArtPiecesUrls = {
 	ARTPIECES_URL: '/art-pieces',
 	NEW_ARTPIECE_URL: '/art-pieces/new',
+	ARTPIECES_RATING_URL: '/art-pieces/rating',
 };
