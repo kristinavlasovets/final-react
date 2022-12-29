@@ -55,6 +55,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 		creationDate,
 	} = review;
 
+	const minititle = title.length > 25 ? title.slice(0, 25) + '...' : title;
+
 	useEffect(() => {
 		let totalNumber: number = +review.artPiece.totalRating!;
 		setValue(totalNumber!);
@@ -105,15 +107,15 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 			sx={{
 				maxHeight: isFull ? 'fit-content' : 800,
 				height: 'fit-content',
-				maxWidth: isFull ? '90vw' : 500,
-				width: isFull ? 1000 : 450,
+				maxWidth: isFull ? '90vw' : 300,
+				width: isFull ? 800 : 250,
 				mb: '30px',
 				m: isFull ? '45px' : '',
 			}}
 		>
 			<CardMedia
 				component="img"
-				height={isFull ? '600' : '300'}
+				height={isFull ? '600' : '200'}
 				image={image}
 				alt="artPiece"
 			/>
@@ -130,7 +132,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 					variant="h5"
 					component="div"
 				>
-					{title}
+					{isFull ? title : minititle}
 				</Typography>
 				<Box
 					sx={{
@@ -156,7 +158,6 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						precision={1}
 						onChange={(event, newValue) => {
 							setValue(newValue);
-							// handleRate(newValue!, artPiece!._id!, user.id);
 							{
 								isAuth
 									? handleRate(newValue!, artPiece!._id!, user.id)
@@ -260,7 +261,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 				) : (
 					<ButtonLink
 						extraStyles={{
-							width: '150px',
+							ml: '10px',
+							width: '100px',
 						}}
 						text="read more"
 						path={'review-full' + `/${_id}`}

@@ -1,25 +1,51 @@
 import React, {FC, useEffect, useState} from 'react';
 
-import {Box, Typography} from '@mui/material';
+import {Box, Typography, Chip} from '@mui/material';
+import TagIcon from '@mui/icons-material/Tag';
 import {ReviewCard} from '../components/ReviewCard/ReviewCard';
 import {IReview} from '../models/IReview';
-import {getAllReviews} from '../services/ReviewService';
+import {
+	getAllTags,
+	getMostRatedReviews,
+	getMostRecentReviews,
+	getReviewsByTag,
+} from '../services/ReviewService';
 
 export const HomePage: FC = () => {
-	const [reviews, setReviews] = useState<IReview[]>([]);
+	const [mostRatedReviews, setMostRatedReviews] = useState<IReview[]>([]);
+	const [mostRecentReviews, setMostRecentReviews] = useState<IReview[]>([]);
+	const [tags, setTags] = useState<string[]>([]);
+	const [clickedTag, setClickedTag] = useState<string>();
+	const [reviewsByTag, setReviewsByTag] = useState<IReview[]>([]);
+
+	const fetchAllTags = async () => {
+		const response = await getAllTags();
+		console.log(response);
+		setTags(response.data);
+	};
 
 	const fetchReviews = async () => {
-		const response = await getAllReviews();
-		setReviews(response.data);
+		const rated = await getMostRatedReviews();
+		setMostRatedReviews(rated.data);
+		const recent = await getMostRecentReviews();
+		setMostRecentReviews(recent.data);
 	};
+
+	const handleTag = async (tag: string) => {
+		const byTag = await getReviewsByTag(tag!);
+		setReviewsByTag(byTag.data);
+		setClickedTag(tag);
+	};
+
 	useEffect(() => {
 		fetchReviews();
+		fetchAllTags();
 	}, []);
 
 	return (
 		<Box
 			sx={{
-				mt: '10vh',
+				mt: '5vh',
 				width: '100%',
 				display: 'flex',
 				flexDirection: 'column',
@@ -31,6 +57,34 @@ export const HomePage: FC = () => {
 			>
 				Welcome to ROTTEN
 			</Typography>
+
+			<Box
+				sx={{
+					width: '90vw',
+					display: 'flex',
+					flexWrap: 'wrap',
+					justifyContent: 'center',
+				}}
+			>
+				<TagIcon sx={{mr: '15px', fontSize: 32}} color="error" />
+				{tags.map((tag) => (
+					<Chip
+						key={tag}
+						sx={{m: '5px', p: '5px', fontSize: '16px', cursor: 'pointer'}}
+						label={tag}
+						onClick={() => handleTag(tag)}
+					/>
+				))}
+			</Box>
+
+			{clickedTag && (
+				<Typography
+					color="error"
+					sx={{mt: '30px', ml: 10, width: '100%', fontSize: '22px'}}
+				>
+					Tagged with #{clickedTag}
+				</Typography>
+			)}
 			<Box
 				sx={{
 					m: '20px auto',
@@ -41,12 +95,65 @@ export const HomePage: FC = () => {
 					justifyContent: 'space-evenly',
 				}}
 			>
-				{reviews.map((review) => (
+				{reviewsByTag.map((review) => (
 					<ReviewCard
 						review={review}
 						key={review._id}
 						isFull={false}
-						setReviews={setReviews}
+						setReviews={setReviewsByTag}
+					/>
+				))}
+			</Box>
+
+			<Typography color="error" sx={{ml: 10, width: '100%', fontSize: '22px'}}>
+				The most rated
+			</Typography>
+			<Box
+				sx={{
+					m: '20px auto',
+					width: '90vw',
+					maxWidth: '95vw',
+					display: 'flex',
+					flexWrap: 'wrap',
+					justifyContent: 'space-evenly',
+				}}
+			>
+				{mostRatedReviews.map((review) => (
+					<ReviewCard
+						review={review}
+						key={review._id}
+						isFull={false}
+						setReviews={setMostRatedReviews}
+					/>
+				))}
+			</Box>
+			<Typography
+				color="error"
+				sx={{
+					mt: '100px',
+					ml: 10,
+					width: '100%',
+					fontSize: '22px',
+				}}
+			>
+				The most recent
+			</Typography>
+			<Box
+				sx={{
+					m: '20px auto',
+					width: '90vw',
+					maxWidth: '95vw',
+					display: 'flex',
+					flexWrap: 'wrap',
+					justifyContent: 'space-evenly',
+				}}
+			>
+				{mostRecentReviews.map((review) => (
+					<ReviewCard
+						review={review}
+						key={review._id}
+						isFull={false}
+						setReviews={setMostRecentReviews}
 					/>
 				))}
 			</Box>

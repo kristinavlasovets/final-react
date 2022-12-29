@@ -21,7 +21,7 @@ export const ButtonLink: FC<ButtonLinkProps> = ({
 				type={type}
 				color={color}
 				variant={variant}
-				sx={{...extraStyles, fontSize: '16px', fontWeight: 600}}
+				sx={{...extraStyles, fontSize: '12px', fontWeight: 600}}
 			>
 				{text}
 			</Button>

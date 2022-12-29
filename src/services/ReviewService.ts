@@ -33,6 +33,26 @@ export const createReviews = async (
 export const getAllReviews = async (): Promise<AxiosResponse<IReview[]>> => {
 	return api.get(sharedReviewsUrls.REVIEWS_URL);
 };
+export const getAllTags = async (): Promise<AxiosResponse<string[]>> => {
+	return api.get(sharedReviewsUrls.ALL_TAGS_URL);
+};
+
+export const getMostRatedReviews = async (): Promise<
+	AxiosResponse<IReview[]>
+> => {
+	return api.get(sharedReviewsUrls.MOST_RATED_REVIEWS_URL);
+};
+
+export const getMostRecentReviews = async (): Promise<
+	AxiosResponse<IReview[]>
+> => {
+	return api.get(sharedReviewsUrls.MOST_RECENT_REVIEWS_URL);
+};
+export const getReviewsByTag = async (
+	tag: string
+): Promise<AxiosResponse<IReview[]>> => {
+	return api.get(sharedReviewsUrls.BY_TAG_REVIEWS_URL + `/${tag}`);
+};
 
 export const getExactReview = async (
 	id: string
