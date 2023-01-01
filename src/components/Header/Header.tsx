@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 
 import {styled, alpha, useTheme} from '@mui/material/styles';
 
@@ -27,7 +27,7 @@ import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
 import {DarkMode, LightMode} from '@mui/icons-material';
 import {setMode} from '../../redux/reducers/auth/AuthSlice';
 
-export const Header = () => {
+export const Header: FC = () => {
 	const theme = useTheme();
 
 	const handleTheme = () => {
@@ -139,7 +139,7 @@ export const Header = () => {
 								aria-haspopup="true"
 								aria-expanded={open ? 'true' : undefined}
 							>
-								<Avatar sx={{width: 32, height: 32}}>K</Avatar>
+								<Avatar sx={{width: 32, height: 32}}>U</Avatar>
 							</IconButton>
 						</Tooltip>
 						<Menu
@@ -186,10 +186,6 @@ export const Header = () => {
 
 							<MenuItem>
 								<PersonAdd fontSize="small" />
-								{/* <ListItemIcon>
-									<PersonAdd fontSize="small" />
-								</ListItemIcon>
-								Create a review */}
 								<ButtonLink
 									extraStyles={{
 										width: '100%',

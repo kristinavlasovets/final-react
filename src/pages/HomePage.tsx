@@ -20,7 +20,6 @@ export const HomePage: FC = () => {
 
 	const fetchAllTags = async () => {
 		const response = await getAllTags();
-		console.log(response);
 		setTags(response.data);
 	};
 
