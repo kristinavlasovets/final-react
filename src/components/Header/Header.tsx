@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -15,9 +14,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
+import Person from '@mui/icons-material/Person';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import DocumentScanner from '@mui/icons-material/DocumentScanner';
 
 import {ButtonLink} from '../Button/ButtonLink';
 import {AppRoutes} from '../AppRouter/interface';
@@ -178,14 +178,22 @@ export const Header: FC = () => {
 							anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
 						>
 							<MenuItem>
-								<Avatar /> Profile
-							</MenuItem>
-							<MenuItem>
-								<Avatar /> My account
+								<Person fontSize="small" />
+								<ButtonLink
+									extraStyles={{
+										width: '100%',
+										height: '20px',
+									}}
+									text="My Account"
+									path={
+										isAuth ? `${AppRoutes.USER_ACCOUNT}` : `${AppRoutes.SIGNIN}`
+									}
+									variant={ButtonVariants.TEXT}
+								/>
 							</MenuItem>
 
 							<MenuItem>
-								<PersonAdd fontSize="small" />
+								<DocumentScanner fontSize="small" />
 								<ButtonLink
 									extraStyles={{
 										width: '100%',

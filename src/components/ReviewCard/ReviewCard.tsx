@@ -14,7 +14,9 @@ import {
 	Typography,
 	Rating,
 } from '@mui/material';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TagIcon from '@mui/icons-material/Tag';
 import StarIcon from '@mui/icons-material/Star';
@@ -32,7 +34,9 @@ import {rateArtPieces} from '../../services/ArtPieceService';
 export const ReviewCard: FC<ReviewCardProps> = ({
 	review,
 	isFull = false,
+	isMine = false,
 	setReviews,
+	deleteReview,
 	handleFullLike,
 }) => {
 	const [value, setValue] = React.useState<number | null>(null);
@@ -229,8 +233,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 			<CardActions
 				sx={{
 					m: isFull ? '30px 0 30px 30px' : '',
-					display: isFull ? 'flex' : '',
-					justifyContent: isFull ? 'center' : '',
+					display: isFull || isMine ? 'flex' : '',
+					justifyContent: isFull || isMine ? 'center' : '',
 				}}
 			>
 				{isFull ? <Typography>Enjoy the review? Click here</Typography> : ''}
@@ -265,9 +269,33 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 							width: '100px',
 						}}
 						text="read more"
-						path={'review-full' + `/${_id}`}
+						path={AppRoutes.HOME + 'review-full' + `/${_id}`}
 						variant={ButtonVariants.TEXT}
 					/>
+				)}
+
+				{isMine ? (
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}
+					>
+						<Tooltip title="Delete" onClick={deleteReview}>
+							<IconButton>
+								<DeleteIcon fontSize="small" />
+							</IconButton>
+						</Tooltip>
+						<Tooltip describeChild title="Edit">
+							<ButtonLink
+								text="edit"
+								path={AppRoutes.REVIEW_CREATE}
+								variant={ButtonVariants.TEXT}
+							/>
+						</Tooltip>
+					</Box>
+				) : (
+					''
 				)}
 			</CardActions>
 		</Card>

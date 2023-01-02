@@ -53,11 +53,21 @@ export const getReviewsByTag = async (
 ): Promise<AxiosResponse<IReview[]>> => {
 	return api.get(sharedReviewsUrls.BY_TAG_REVIEWS_URL + `/${tag}`);
 };
+export const getReviewsByUser = async (
+	userId: string
+): Promise<AxiosResponse<IReview[]>> => {
+	return api.get(sharedReviewsUrls.BY_USER_REVIEWS_URL + `/${userId}`);
+};
 
 export const getExactReview = async (
 	id: string
 ): Promise<AxiosResponse<IReview>> => {
 	return api.get(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
+};
+export const deleteExactReview = async (
+	id: string
+): Promise<AxiosResponse<IReview>> => {
+	return api.delete(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
 };
 
 export const getRelatedReviews = async (): Promise<
