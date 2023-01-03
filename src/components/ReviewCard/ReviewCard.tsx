@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import {
@@ -30,6 +30,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {useNavigate} from 'react-router-dom';
 import {like} from '../../redux/reducers/auth/AuthSlice';
 import {rateArtPieces} from '../../services/ArtPieceService';
+import {getReviewsByUser} from '../../services/ReviewService';
+import {IReview} from '../../models/IReview';
 
 export const ReviewCard: FC<ReviewCardProps> = ({
 	review,
@@ -39,8 +41,9 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 	deleteReview,
 	handleFullLike,
 }) => {
-	const [value, setValue] = React.useState<number | null>(null);
-	const [hover, setHover] = React.useState(-1);
+	const [reviewsByUser, setReviewsByUser] = useState<IReview[]>([]);
+	const [value, setValue] = useState<number | null>(null);
+	const [hover, setHover] = useState(-1);
 	const {user, isAuth} = useAppSelector((state) => state.authReducer);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -61,9 +64,19 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 
 	const minititle = title.length > 25 ? title.slice(0, 25) + '...' : title;
 
+	const fetchMyReviews = async () => {
+		const byUser = await getReviewsByUser(author._id);
+		setReviewsByUser(byUser.data);
+	};
+
+	const userTotalLikes = reviewsByUser
+		.map((item) => item.likes.length)
+		.reduce((acc, curr) => acc + curr, 0);
+
 	useEffect(() => {
 		let totalNumber: number = +review.artPiece.totalRating!;
 		setValue(totalNumber!);
+		fetchMyReviews();
 	}, []);
 
 	const handleTag = () => {
@@ -112,7 +125,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 				maxHeight: isFull ? 'fit-content' : 800,
 				height: 'fit-content',
 				maxWidth: isFull ? '90vw' : 300,
-				width: isFull ? 800 : 250,
+				width: isFull ? 900 : 250,
 				mb: '30px',
 				m: isFull ? '45px' : '',
 			}}
@@ -143,9 +156,20 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						display: 'flex',
 					}}
 				>
+					{userTotalLikes && isFull ? (
+						<Badge
+							sx={{mr: '15px'}}
+							badgeContent={userTotalLikes}
+							color="error"
+						>
+							<FavoriteIcon fontSize="large" sx={{color: 'red'}} />
+						</Badge>
+					) : (
+						''
+					)}
 					<Typography
 						sx={{
-							fontSize: isFull ? '22px' : '',
+							fontSize: isFull ? '18px' : '',
 						}}
 						variant="body2"
 						color="text.secondary"
@@ -157,7 +181,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 					<Rating
 						sx={{ml: isFull ? '20px' : '10px'}}
 						name="hover-feedback"
-						size={isFull ? 'large' : 'small'}
+						size={isFull ? 'medium' : 'small'}
 						value={value}
 						precision={1}
 						onChange={(event, newValue) => {
@@ -177,8 +201,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						sx={{
 							mt: isFull ? '' : '-5px',
 							ml: isFull ? '20px' : '10px',
-							fontSize: isFull ? '28px' : '18px',
-							lineHeight: isFull ? '32px' : '18px',
+							fontSize: isFull ? '24px' : '18px',
+							lineHeight: isFull ? '24px' : '18px',
 							fontWeight: 900,
 							color: '#f6b135',
 						}}
@@ -190,7 +214,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 
 				{isFull ? (
 					<Typography
-						sx={{mt: '10px', fontSize: '22px'}}
+						sx={{mt: '10px', fontSize: '18px'}}
 						variant="body2"
 						color="text.secondary"
 					>
@@ -238,10 +262,9 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 				}}
 			>
 				{isFull ? <Typography>Enjoy the review? Click here</Typography> : ''}
-				<Badge badgeContent={likes?.length} color="error">
+				<Badge sx={{ml: '5px'}} badgeContent={likes?.length} color="error">
 					<IconButton
 						sx={{
-							ml: '5px',
 							color: user.likedReviews?.includes(review?._id) ? 'red' : '',
 						}}
 						onClick={isAuth ? handleLike : handleRedirect}
@@ -255,8 +278,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 				{isFull ? (
 					<ButtonLink
 						extraStyles={{
-							ml: '10px',
-							width: '200px',
+							ml: '5px',
+							width: '160px',
 						}}
 						text="back to home page"
 						path={AppRoutes.HOME}

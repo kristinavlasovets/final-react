@@ -1,9 +1,7 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, {FormEvent, useEffect, useRef, useState} from 'react';
 import {useParams} from 'react-router-dom';
-
-import {ReviewCard} from '../components/ReviewCard/ReviewCard';
-import {IReview} from '../models/IReview';
-import {getExactReview} from '../services/ReviewService';
+import {io} from 'socket.io-client';
+import type {Socket} from 'socket.io-client';
 
 import {Box, TextField, Typography} from '@mui/material';
 import {useAppSelector} from '../hooks/redux';
@@ -11,8 +9,13 @@ import {ReviewRelated} from '../components/ReviewRelated/ReviewRelated';
 import {Comment} from '../components/Comments/Comment';
 import {ButtonOriginal} from '../components/Button/ButtonOriginal';
 import {ButtonTypes} from '../components/Button/interface';
-import {createComment, getComments} from '../services/CommentService';
+import {ReviewCard} from '../components/ReviewCard/ReviewCard';
+
+import {IReview} from '../models/IReview';
 import {IComment} from '../models/IComment';
+
+import {getExactReview} from '../services/ReviewService';
+import {createComment, getComments} from '../services/CommentService';
 
 export const ReviewFullPage = () => {
 	const [comments, setComments] = useState([] as IComment[]);
@@ -20,6 +23,7 @@ export const ReviewFullPage = () => {
 	const [name, setName] = useState('');
 	const [exactReview, setExactReview] = useState({} as IReview);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [socket, setSocket] = useState<Socket | null>(null);
 
 	const {id} = useParams();
 
@@ -30,6 +34,7 @@ export const ReviewFullPage = () => {
 		setExactReview(response.data);
 		setIsLoading(false);
 	};
+
 	const fetchComments = async () => {
 		const response = await getComments(id!);
 		setComments(response.data);
@@ -39,6 +44,26 @@ export const ReviewFullPage = () => {
 		fetchExactReview();
 		fetchComments();
 	}, []);
+
+	useEffect(() => {
+		setSocket(io('ws://localhost:8900'));
+	}, []);
+
+	useEffect(() => {
+		if (socket) {
+			socket.on('getComment', (data) => {
+				setComments((prev) =>
+					prev.concat({
+						_id: Date.now().toString(),
+						name: data.name,
+						userId: data.userId,
+						desc: data.desc,
+						reviewId: data.reviewId,
+					})
+				);
+			});
+		}
+	}, [socket]);
 
 	const handleFullLike = () => {
 		setExactReview((prev) =>
@@ -57,22 +82,35 @@ export const ReviewFullPage = () => {
 	) => {
 		setCommentValue(e.target.value);
 	};
+
 	const handleName = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		setName(e.target.value);
 	};
+
 	const clearCommentValue = () => {
 		setCommentValue('');
 	};
 
 	const onSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
-		const response = await createComment({
+		e.preventDefault();
+
+		socket!.emit('sendComment', {
 			name: name,
 			userId: user.id,
 			reviewId: exactReview._id,
 			desc: commentValue,
 		});
+
+		await createComment({
+			name: name,
+			userId: user.id,
+			reviewId: exactReview._id,
+			desc: commentValue,
+		});
+
+		clearCommentValue();
 	};
 
 	return (
