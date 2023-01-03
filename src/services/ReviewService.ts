@@ -29,6 +29,22 @@ export const createReviews = async (
 		grade,
 	});
 };
+export const updateReviews = async (
+	id: string,
+	data: createReviewInput
+): Promise<AxiosResponse<IReview>> => {
+	const {author, title, image, artPiece, artGroup, text, grade, tags} = data;
+	return api.patch(sharedReviewsUrls.REVIEWS_URL + `/${id}`, {
+		title,
+		artPiece,
+		artGroup,
+		tags,
+		text,
+		image,
+		author,
+		grade,
+	});
+};
 
 export const getAllReviews = async (): Promise<AxiosResponse<IReview[]>> => {
 	return api.get(sharedReviewsUrls.REVIEWS_URL);

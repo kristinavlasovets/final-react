@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/redux';
 
 import {
@@ -20,9 +21,12 @@ import {ButtonTypes} from '../Button/interface';
 import {IArtPiece} from '../../models/IArtPiece';
 import {ImageBlock} from '../ImageBlock/ImageBlock';
 import ArtPieceService from '../../services/ArtPieceService';
-import {useNavigate} from 'react-router-dom';
 import {AppRoutes} from '../AppRouter/interface';
-import {createReviews} from '../../services/ReviewService';
+import {
+	createReviews,
+	getExactReview,
+	updateReviews,
+} from '../../services/ReviewService';
 
 const filter = createFilterOptions<IArtPiece>();
 
@@ -30,6 +34,8 @@ export const ReviewCreateForm = () => {
 	const artGroupOptions = ['Books', 'Games', 'Movies'];
 	const grades = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 	const {user} = useAppSelector((state) => state.authReducer);
+	const {id} = useParams();
+	const isEdit = Boolean(id);
 
 	const [title, setTitle] = useState<string>('');
 	const [image, setImage] = useState<string>('');
@@ -75,16 +81,27 @@ export const ReviewCreateForm = () => {
 			newArtPiece = createdArtPiece.data;
 		}
 
-		const response = await createReviews({
-			title: title,
-			artPiece: newArtPiece!._id!,
-			artGroup: artGroup,
-			tags: tags,
-			text: text,
-			image: image,
-			author: user.id,
-			grade: grade,
-		});
+		const response = isEdit
+			? await updateReviews(id!, {
+					title: title,
+					artPiece: newArtPiece!._id!,
+					artGroup: artGroup,
+					tags: tags,
+					text: text,
+					image: image,
+					author: user.id,
+					grade: grade,
+			  })
+			: await createReviews({
+					title: title,
+					artPiece: newArtPiece!._id!,
+					artGroup: artGroup,
+					tags: tags,
+					text: text,
+					image: image,
+					author: user.id,
+					grade: grade,
+			  });
 
 		navigate(AppRoutes.HOME);
 		return;
@@ -92,6 +109,23 @@ export const ReviewCreateForm = () => {
 
 	useEffect(() => {
 		fetchArtPieces();
+	}, []);
+
+	const fetchExactReview = async () => {
+		const response = await getExactReview(id!);
+		setTitle(response.data.title);
+		setImage(response.data.image);
+		setArtPiece(response.data.artPiece);
+		setArtGroup(response.data.artGroup);
+		setText(response.data.text);
+		setTags(response.data.tags);
+		setGrade(response.data.grade);
+	};
+
+	useEffect(() => {
+		if (id) {
+			fetchExactReview();
+		}
 	}, []);
 
 	return (
@@ -250,7 +284,7 @@ export const ReviewCreateForm = () => {
 					m: '20px auto',
 					width: '150px',
 				}}
-				text="create"
+				text={isEdit ? 'edit' : 'create'}
 				type={ButtonTypes.SUBMIT}
 			/>
 		</Box>

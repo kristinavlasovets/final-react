@@ -12,7 +12,6 @@ import {
 import {CommentProps} from './interface';
 
 export const Comment: FC<CommentProps> = ({name, userId, text}) => {
-	console.log(name);
 	return (
 		<Card
 			sx={{

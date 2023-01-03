@@ -94,8 +94,9 @@ export const Header: FC = () => {
 				<Toolbar>
 					<ButtonLink
 						extraStyles={{
-							width: '150px',
-							height: '50px',
+							width: {xs: '80px', md: '150px'},
+							height: {xs: '35px', md: '50px'},
+							mr: '5px',
 						}}
 						text="ROTTEN"
 						path={AppRoutes.HOME}
@@ -113,9 +114,15 @@ export const Header: FC = () => {
 					</Search>
 
 					<Box sx={{flexGrow: 1}} />
-					<Box sx={{display: {xs: 'none', md: 'flex'}}}>
+					<Box sx={{display: 'flex'}}>
 						{!isAuth && (
 							<ButtonLink
+								extraStyles={{
+									width: {xs: '60px', md: '100px'},
+									height: '35px',
+									m: '3px 5px 0 0',
+									lineHeight: '16px',
+								}}
 								text="sign in"
 								path={AppRoutes.SIGNIN}
 								variant={ButtonVariants.CONTAINED}
@@ -134,7 +141,7 @@ export const Header: FC = () => {
 							<IconButton
 								onClick={handleClick}
 								size="small"
-								sx={{ml: 2}}
+								sx={{ml: '5px'}}
 								aria-controls={open ? 'account-menu' : undefined}
 								aria-haspopup="true"
 								aria-expanded={open ? 'true' : undefined}
@@ -208,19 +215,19 @@ export const Header: FC = () => {
 									variant={ButtonVariants.TEXT}
 								/>
 							</MenuItem>
-							<Divider />
-							<MenuItem>
-								<ListItemIcon>
-									<Settings fontSize="small" />
-								</ListItemIcon>
-								Settings
-							</MenuItem>
-							<MenuItem onClick={signout}>
-								<ListItemIcon>
-									<Logout fontSize="small" />
-								</ListItemIcon>
-								Sign out
-							</MenuItem>
+							{isAuth ? (
+								<>
+									<Divider />
+									<MenuItem onClick={signout}>
+										<ListItemIcon>
+											<Logout fontSize="small" />
+										</ListItemIcon>
+										Sign out
+									</MenuItem>
+								</>
+							) : (
+								''
+							)}
 						</Menu>
 					</Box>
 				</Toolbar>

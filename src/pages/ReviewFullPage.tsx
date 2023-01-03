@@ -22,7 +22,6 @@ export const ReviewFullPage = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const {id} = useParams();
-	console.log(id);
 
 	const {user, isAuth} = useAppSelector((state) => state.authReducer);
 

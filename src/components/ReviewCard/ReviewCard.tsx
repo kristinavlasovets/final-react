@@ -289,7 +289,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						<Tooltip describeChild title="Edit">
 							<ButtonLink
 								text="edit"
-								path={AppRoutes.REVIEW_CREATE}
+								path={AppRoutes.HOME + 'review-create' + `/${_id}`}
 								variant={ButtonVariants.TEXT}
 							/>
 						</Tooltip>
