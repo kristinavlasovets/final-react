@@ -46,7 +46,7 @@ export const ReviewFullPage = () => {
 	}, []);
 
 	useEffect(() => {
-		setSocket(io('ws://localhost:8900'));
+		setSocket(io(process.env.REACT_APP_SOCKET_URL!));
 	}, []);
 
 	useEffect(() => {

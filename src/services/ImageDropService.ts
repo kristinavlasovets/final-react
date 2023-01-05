@@ -10,7 +10,7 @@ export const uploadImage = async (file: imageDropServiceProps) => {
 		formData.append('file', file);
 		formData.append('upload_preset', 'mauuttir');
 
-		const response = await axios.post(IMAGE_DROP_URL, formData);
+		const response = await axios.post(IMAGE_DROP_URL!, formData);
 
 		return response.data;
 	} catch (e: any) {
