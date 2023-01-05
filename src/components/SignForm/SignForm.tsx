@@ -34,21 +34,21 @@ export const SignForm: FC<SignFormProps> = ({
 		reset();
 	};
 
-	const signInWithGoogle = async () => {
-		signInWithPopup(auth, provider)
-			.then((result) => {
-				axios
-					.post('/api/login/google', {
-						email: result.user.displayName,
-					})
-					.then((res) => {
-						return res.data;
-					});
-			})
-			.catch((error) => {
-				console.log('Sign in with Google error');
-			});
-	};
+	// const signInWithGoogle = async () => {
+	// 	signInWithPopup(auth, provider)
+	// 		.then((result) => {
+	// 			axios
+	// 				.post('/api/login/google', {
+	// 					email: result.user.displayName,
+	// 				})
+	// 				.then((res) => {
+	// 					return res.data;
+	// 				});
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log('Sign in with Google error');
+	// 		});
+	// };
 
 	return (
 		<Box
@@ -67,7 +67,7 @@ export const SignForm: FC<SignFormProps> = ({
 			</Typography>
 
 			{/* SOCIAL APP */}
-			{isSignup ? (
+			{/* {isSignup ? (
 				''
 			) : (
 				<ButtonOriginal
@@ -82,7 +82,7 @@ export const SignForm: FC<SignFormProps> = ({
 					variant={ButtonVariants.CONTAINED}
 					onClick={signInWithGoogle}
 				/>
-			)}
+			)} */}
 			{/* SOCIAL APP */}
 			<TextField
 				{...register('email', {required: true})}
