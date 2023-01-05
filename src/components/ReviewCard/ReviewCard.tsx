@@ -304,18 +304,14 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 							justifyContent: 'center',
 						}}
 					>
-						<Tooltip title="Delete" onClick={deleteReview}>
-							<IconButton>
-								<DeleteIcon fontSize="small" />
-							</IconButton>
-						</Tooltip>
-						<Tooltip describeChild title="Edit">
-							<ButtonLink
-								text="edit"
-								path={AppRoutes.HOME + 'review-create' + `/${_id}`}
-								variant={ButtonVariants.TEXT}
-							/>
-						</Tooltip>
+						<IconButton onClick={deleteReview}>
+							<DeleteIcon fontSize="small" />
+						</IconButton>
+						<ButtonLink
+							text="edit"
+							path={AppRoutes.HOME + 'review-create' + `/${_id}`}
+							variant={ButtonVariants.TEXT}
+						/>
 					</Box>
 				) : (
 					''

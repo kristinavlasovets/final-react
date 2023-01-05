@@ -1,31 +1,36 @@
 import React, {FC} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
+import {setMode} from '../../redux/reducers/auth/AuthSlice';
 
-import {styled, alpha, useTheme} from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import {
+	AppBar,
+	Box,
+	Avatar,
+	Toolbar,
+	IconButton,
+	InputBase,
+	MenuItem,
+	Menu,
+	ListItemIcon,
+	Divider,
+	Tooltip,
+} from '@mui/material';
+
+import {
+	DarkMode,
+	LightMode,
+	DocumentScanner,
+	Logout,
+	Person,
+} from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import Person from '@mui/icons-material/Person';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-import DocumentScanner from '@mui/icons-material/DocumentScanner';
 
 import {ButtonLink} from '../Button/ButtonLink';
 import {AppRoutes} from '../AppRouter/interface';
 import {ButtonVariants} from '../Button/interface';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
-import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
-import {DarkMode, LightMode} from '@mui/icons-material';
-import {setMode} from '../../redux/reducers/auth/AuthSlice';
 
 export const Header: FC = () => {
 	const theme = useTheme();
@@ -33,45 +38,6 @@ export const Header: FC = () => {
 	const handleTheme = () => {
 		dispatch(setMode());
 	};
-
-	const Search = styled('div')(({theme}) => ({
-		position: 'relative',
-		borderRadius: theme.shape.borderRadius,
-		backgroundColor: alpha(theme.palette.common.white, 0.15),
-		'&:hover': {
-			backgroundColor: alpha(theme.palette.common.white, 0.25),
-		},
-		marginRight: theme.spacing(2),
-		marginLeft: 0,
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			marginLeft: theme.spacing(3),
-			width: 'auto',
-		},
-	}));
-
-	const SearchIconWrapper = styled('div')(({theme}) => ({
-		padding: theme.spacing(0, 2),
-		height: '100%',
-		position: 'absolute',
-		pointerEvents: 'none',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	}));
-
-	const StyledInputBase = styled(InputBase)(({theme}) => ({
-		color: 'inherit',
-		'& .MuiInputBase-input': {
-			padding: theme.spacing(1, 1, 1, 0),
-			paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-			transition: theme.transitions.create('width'),
-			width: '100%',
-			[theme.breakpoints.up('md')]: {
-				width: '20ch',
-			},
-		},
-	}));
 
 	const {isAuth} = useAppSelector((state) => state.authReducer);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -103,15 +69,21 @@ export const Header: FC = () => {
 						variant={ButtonVariants.TEXT}
 					/>
 
-					<Search>
-						<SearchIconWrapper>
-							<SearchIcon />
-						</SearchIconWrapper>
-						<StyledInputBase
-							placeholder="Search…"
-							inputProps={{'aria-label': 'search'}}
-						/>
-					</Search>
+					<Box
+						sx={{
+							padding: '5px',
+							height: '100%',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+					>
+						<SearchIcon />
+					</Box>
+					<InputBase
+						placeholder="Search…"
+						inputProps={{'aria-label': 'search'}}
+					/>
 
 					<Box sx={{flexGrow: 1}} />
 					<Box sx={{display: 'flex'}}>
@@ -149,6 +121,7 @@ export const Header: FC = () => {
 								<Avatar sx={{width: 32, height: 32}}>U</Avatar>
 							</IconButton>
 						</Tooltip>
+
 						<Menu
 							anchorEl={anchorEl}
 							id="account-menu"
@@ -216,15 +189,12 @@ export const Header: FC = () => {
 								/>
 							</MenuItem>
 							{isAuth ? (
-								<>
-									<Divider />
-									<MenuItem onClick={signout}>
-										<ListItemIcon>
-											<Logout fontSize="small" />
-										</ListItemIcon>
-										Sign out
-									</MenuItem>
-								</>
+								<MenuItem onClick={signout}>
+									<ListItemIcon>
+										<Logout fontSize="small" />
+									</ListItemIcon>
+									Sign out
+								</MenuItem>
 							) : (
 								''
 							)}

@@ -2,6 +2,7 @@ import api from '../http';
 import {AxiosResponse} from 'axios';
 import {IReview} from '../models/IReview';
 import {sharedReviewsUrls} from '../shared/sharedUrls';
+import {GridRowId} from '@mui/x-data-grid';
 
 interface createReviewInput {
 	author: string;
@@ -81,7 +82,7 @@ export const getExactReview = async (
 	return api.get(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
 };
 export const deleteExactReview = async (
-	id: string
+	id: string | GridRowId
 ): Promise<AxiosResponse<IReview>> => {
 	return api.delete(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
 };

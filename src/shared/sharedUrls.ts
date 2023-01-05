@@ -7,6 +7,7 @@ export const IMAGE_DROP_URL =
 export const sharedAuthUrls = {
 	REGISTER_URL: '/registration',
 	LOGIN_URL: '/login',
+	GOOGE_LOGIN_URL: '/login/google',
 	LOGOUT_URL: '/logout',
 };
 
