@@ -9,7 +9,7 @@ export const ReviewRelated: FC<ReviewRelatedProps> = ({exactReview}) => {
 	const [relatedReviews, setRelatedReviews] = useState<IReview[]>([]);
 
 	const fetchRelatedReviews = async () => {
-		const response = await getRelatedReviews();
+		const response = await getRelatedReviews(exactReview.artPiece._id!);
 		setRelatedReviews(response.data);
 	};
 
@@ -17,11 +17,16 @@ export const ReviewRelated: FC<ReviewRelatedProps> = ({exactReview}) => {
 		fetchRelatedReviews();
 	}, []);
 
+	console.log(exactReview);
+	console.log(relatedReviews);
+
 	return (
 		<Box>
-			{relatedReviews.map((review) => (
-				<ReviewCard review={review} key={review._id} />
-			))}
+			{relatedReviews
+				.filter((review) => review._id !== exactReview._id)
+				.map((review) => (
+					<ReviewCard review={review} key={review._id} />
+				))}
 		</Box>
 	);
 };

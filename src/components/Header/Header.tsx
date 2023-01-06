@@ -15,8 +15,9 @@ import {
 	MenuItem,
 	Menu,
 	ListItemIcon,
-	Divider,
 	Tooltip,
+	ButtonGroup,
+	Button,
 } from '@mui/material';
 
 import {
@@ -78,12 +79,17 @@ export const Header: FC = () => {
 							justifyContent: 'center',
 						}}
 					>
+						<ButtonGroup variant="text" color="error" size="small">
+							<Button>en</Button>
+							<Button>ru</Button>
+						</ButtonGroup>
+
 						<SearchIcon />
+						<InputBase
+							placeholder="Search…"
+							inputProps={{'aria-label': 'search'}}
+						/>
 					</Box>
-					<InputBase
-						placeholder="Search…"
-						inputProps={{'aria-label': 'search'}}
-					/>
 
 					<Box sx={{flexGrow: 1}} />
 					<Box sx={{display: 'flex'}}>

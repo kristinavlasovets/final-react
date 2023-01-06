@@ -50,6 +50,7 @@ export const updateReviews = async (
 export const getAllReviews = async (): Promise<AxiosResponse<IReview[]>> => {
 	return api.get(sharedReviewsUrls.REVIEWS_URL);
 };
+
 export const getAllTags = async (): Promise<AxiosResponse<string[]>> => {
 	return api.get(sharedReviewsUrls.ALL_TAGS_URL);
 };
@@ -65,15 +66,23 @@ export const getMostRecentReviews = async (): Promise<
 > => {
 	return api.get(sharedReviewsUrls.MOST_RECENT_REVIEWS_URL);
 };
+
 export const getReviewsByTag = async (
 	tag: string
 ): Promise<AxiosResponse<IReview[]>> => {
 	return api.get(sharedReviewsUrls.BY_TAG_REVIEWS_URL + `/${tag}`);
 };
+
 export const getReviewsByUser = async (
 	userId: string
 ): Promise<AxiosResponse<IReview[]>> => {
 	return api.get(sharedReviewsUrls.BY_USER_REVIEWS_URL + `/${userId}`);
+};
+
+export const getRelatedReviews = async (
+	artPieceId: string
+): Promise<AxiosResponse<IReview[]>> => {
+	return api.get(sharedReviewsUrls.BY_ART_PIECE_REVIEWS_URL + `/${artPieceId}`);
 };
 
 export const getExactReview = async (
@@ -81,14 +90,9 @@ export const getExactReview = async (
 ): Promise<AxiosResponse<IReview>> => {
 	return api.get(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
 };
+
 export const deleteExactReview = async (
 	id: string | GridRowId
 ): Promise<AxiosResponse<IReview>> => {
 	return api.delete(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
-};
-
-export const getRelatedReviews = async (): Promise<
-	AxiosResponse<IReview[]>
-> => {
-	return api.get(sharedReviewsUrls.REVIEWS_URL);
 };

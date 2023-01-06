@@ -15,6 +15,7 @@ export const sharedReviewsUrls = {
 	MOST_RECENT_REVIEWS_URL: '/most-recent-reviews',
 	BY_TAG_REVIEWS_URL: '/by-tag-reviews',
 	BY_USER_REVIEWS_URL: '/by-user-reviews',
+	BY_ART_PIECE_REVIEWS_URL: '/by-artpiece-reviews',
 	COMMENTS_URL: '/comments',
 };
 

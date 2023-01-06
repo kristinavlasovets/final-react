@@ -1,10 +1,10 @@
-import React, {FormEvent, useEffect, useRef, useState} from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import type {Socket} from 'socket.io-client';
-
-import {Box, TextField, Typography} from '@mui/material';
 import {useAppSelector} from '../hooks/redux';
+
+import {Box, TextField} from '@mui/material';
 import {ReviewRelated} from '../components/ReviewRelated/ReviewRelated';
 import {Comment} from '../components/Comments/Comment';
 import {ButtonOriginal} from '../components/Button/ButtonOriginal';
@@ -74,7 +74,19 @@ export const ReviewFullPage = () => {
 	};
 
 	if (isLoading) {
-		return <div>is Loading</div>;
+		return (
+			<Box
+				sx={{
+					width: '100%',
+					m: '45vh auto',
+					display: 'flex',
+					justifyContent: 'center',
+					fontSize: '22px',
+				}}
+			>
+				Loading...
+			</Box>
+		);
 	}
 
 	const handleCommentValue = (

@@ -1,4 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import ReactMarkdown from 'react-markdown';
 
 import {
@@ -15,8 +17,6 @@ import {
 	Rating,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TagIcon from '@mui/icons-material/Tag';
 import StarIcon from '@mui/icons-material/Star';
@@ -26,11 +26,9 @@ import {ReviewCardProps} from './interface';
 import {ButtonLink} from '../Button/ButtonLink';
 import {ButtonVariants} from '../Button/interface';
 import {likeReview} from '../../services/UserService';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
-import {useNavigate} from 'react-router-dom';
-import {like} from '../../redux/reducers/auth/AuthSlice';
 import {rateArtPieces} from '../../services/ArtPieceService';
 import {getReviewsByUser} from '../../services/ReviewService';
+import {like} from '../../redux/reducers/auth/AuthSlice';
 import {IReview} from '../../models/IReview';
 
 export const ReviewCard: FC<ReviewCardProps> = ({
@@ -78,10 +76,6 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 		setValue(totalNumber!);
 		fetchMyReviews();
 	}, []);
-
-	const handleTag = () => {
-		console.log(tags);
-	};
 
 	const handleLike = async () => {
 		dispatch(like(review._id));
@@ -246,7 +240,6 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 								key={tag}
 								sx={{mr: '20px', p: '5px', fontSize: '16px', cursor: 'pointer'}}
 								label={tag}
-								onClick={handleTag}
 							/>
 						))}
 					</Box>

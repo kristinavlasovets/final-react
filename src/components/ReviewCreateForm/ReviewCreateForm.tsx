@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/redux';
+import {AppRoutes} from '../AppRouter/interface';
 
 import {
 	Box,
@@ -20,8 +21,7 @@ import {ButtonOriginal} from '../Button/ButtonOriginal';
 import {ButtonTypes} from '../Button/interface';
 import {IArtPiece} from '../../models/IArtPiece';
 import {ImageBlock} from '../ImageBlock/ImageBlock';
-import ArtPieceService from '../../services/ArtPieceService';
-import {AppRoutes} from '../AppRouter/interface';
+import {createArtPiece, getAllArtPieces} from '../../services/ArtPieceService';
 import {
 	createReviews,
 	getExactReview,
@@ -60,7 +60,7 @@ export const ReviewCreateForm = () => {
 	};
 
 	const fetchArtPieces = async () => {
-		const response = await ArtPieceService.getAllArtPieces();
+		const response = await getAllArtPieces();
 		setArtPieces(response.data);
 	};
 
@@ -75,9 +75,7 @@ export const ReviewCreateForm = () => {
 		if (candidateArtPiece) {
 			newArtPiece = candidateArtPiece;
 		} else {
-			const createdArtPiece = await ArtPieceService.createArtPiece(
-				artPiece!.name!
-			);
+			const createdArtPiece = await createArtPiece(artPiece!.name!);
 			newArtPiece = createdArtPiece.data;
 		}
 
