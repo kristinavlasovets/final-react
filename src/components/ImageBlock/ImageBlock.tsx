@@ -1,5 +1,6 @@
 import React, {useState, FC} from 'react';
-import axios from 'axios';
+
+import {useTranslation} from 'react-i18next';
 
 import {Box, Typography} from '@mui/material';
 import {ImageBlockProps} from './interface';
@@ -7,6 +8,8 @@ import {uploadImage} from '../../services/ImageDropService';
 
 export const ImageBlock: FC<ImageBlockProps> = ({setImage}) => {
 	const [drag, setDrag] = useState(false);
+
+	const {t} = useTranslation();
 
 	const dragStartHandler = (e: React.DragEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -30,9 +33,9 @@ export const ImageBlock: FC<ImageBlockProps> = ({setImage}) => {
 		<Box
 			sx={{
 				m: '20px auto',
-				width: 600,
+				width: {xs: '90vw', md: 600},
 				maxWidth: 600,
-				height: 300,
+				height: {xs: 150, md: 300},
 			}}
 		>
 			{drag ? (
@@ -66,7 +69,7 @@ export const ImageBlock: FC<ImageBlockProps> = ({setImage}) => {
 							color: 'red',
 						}}
 					>
-						Drop
+						{t('CreateForm.drop')}
 					</Typography>
 				</Box>
 			) : (
@@ -97,7 +100,7 @@ export const ImageBlock: FC<ImageBlockProps> = ({setImage}) => {
 							color: 'gray',
 						}}
 					>
-						Drag your poster here to start uploading
+						{t('CreateForm.drag')}
 					</Typography>
 				</Box>
 			)}

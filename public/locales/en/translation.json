@@ -1,0 +1,67 @@
+{
+	"Search": {
+		"placeholder": "Search..."
+	},
+	"Menu": {
+		"title": "U",
+		"label": "Account settings",
+		"signin": "sign in",
+		"0": "My account",
+		"1": "Create a review",
+		"2": "Sign out"
+	},
+	"Home": {
+		"0": "Welcome to ROTTEN",
+		"1": "Tagged with #",
+		"2": "The most rated",
+		"3": "The most recent"
+	},
+	"SignIn": {
+		"title0": "Sign in to ROTTEN",
+		"title1": "Sign up to ROTTEN",
+		"0": "email",
+		"1": "password",
+		"alert": "is required",
+		"signin": "Sign in",
+		"signup": "Sign up",
+		"question0": "No account yet?",
+		"question1": "Already have an account?"
+	},
+	"ReviewCard": {
+		"more": "read more",
+		"about": "about",
+		"grade": "Author's grade:",
+		"question": "Enjoy the review? Click here",
+		"or": "or go",
+		"back": "back to home page",
+		"edit": "edit"
+	},
+	"Comment": {
+		"name": "Add your name...",
+		"placeholder": "Add a comment...",
+		"cancel": "cancel",
+		"comment": "comment"
+	},
+	"CreateForm": {
+		"title": "Create a review",
+		"0": "Title",
+		"1": "Art piece",
+		"2": "Art group",
+		"3": "How do you like it?",
+		"4": "Press Enter to add tag",
+		"5": "Your grade",
+		"button0": "create",
+		"button1": "save",
+		"drag": "Drag your poster here to start uploading",
+		"drop": "Drop"
+	},
+	"Table": {
+		"title": "My reviews",
+		"0": "Athor",
+		"1": "Title",
+		"2": "Art piece",
+		"3": "Art group",
+		"4": "Text",
+		"5": "Grade"
+	}
+}

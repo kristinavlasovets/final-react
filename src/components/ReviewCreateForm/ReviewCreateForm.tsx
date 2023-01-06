@@ -3,6 +3,8 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks/redux';
 import {AppRoutes} from '../AppRouter/interface';
 
+import {useTranslation} from 'react-i18next';
+
 import {
 	Box,
 	TextField,
@@ -49,6 +51,8 @@ export const ReviewCreateForm = () => {
 	const [tag, setTag] = useState<string | null>(null);
 
 	const navigate = useNavigate();
+
+	const {t} = useTranslation();
 
 	const handleChange = (event: SelectChangeEvent<typeof grade>) => {
 		const value = event.target.value;
@@ -132,7 +136,7 @@ export const ReviewCreateForm = () => {
 			onSubmit={handleSubmit}
 			sx={{
 				m: '5vh auto',
-				width: 800,
+				width: {xs: '90vw', md: 800},
 				maxWidth: 1000,
 				display: 'flex',
 				flexDirection: 'column',
@@ -142,7 +146,7 @@ export const ReviewCreateForm = () => {
 			<TextField
 				sx={{m: '10px auto', width: '100%'}}
 				onChange={(event) => setTitle(event.target.value)}
-				label="Review title"
+				label={t('CreateForm.0')}
 				variant="outlined"
 				value={title}
 				color="error"
@@ -199,7 +203,7 @@ export const ReviewCreateForm = () => {
 				}}
 				renderOption={(props, option) => <li {...props}>{option.name}</li>}
 				renderInput={(params) => (
-					<TextField {...params} label="Art piece" color="error" />
+					<TextField {...params} label={t('CreateForm.1')} color="error" />
 				)}
 			/>
 			<Autocomplete
@@ -212,7 +216,7 @@ export const ReviewCreateForm = () => {
 				autoHighlight
 				sx={{m: '10px auto', width: '100%'}}
 				renderInput={(params) => (
-					<TextField {...params} label="Art group" color="error" />
+					<TextField {...params} label={t('CreateForm.2')} color="error" />
 				)}
 			/>
 			<TextareaAutosize
@@ -226,7 +230,7 @@ export const ReviewCreateForm = () => {
 				}}
 				onChange={(event) => setText(event.target.value)}
 				minRows={3}
-				placeholder="How do you like it?"
+				placeholder={`${t('CreateForm.3')}`}
 				value={text}
 				color="error"
 			/>
@@ -237,7 +241,7 @@ export const ReviewCreateForm = () => {
 				options={tagOptions}
 				isOptionEqualToValue={(option, value) => option === value}
 				renderInput={(params) => (
-					<TextField {...params} label="Press Enter to add tag" color="error" />
+					<TextField {...params} label={t('CreateForm.4')} color="error" />
 				)}
 				placeholder="Add tags"
 				value={tag}
@@ -261,7 +265,7 @@ export const ReviewCreateForm = () => {
 				))}
 			</Stack>
 			<InputLabel sx={{m: '10px'}} id="grade-label">
-				Your grade
+				{t('CreateForm.5')}
 			</InputLabel>
 			<Select
 				autoWidth
@@ -279,10 +283,12 @@ export const ReviewCreateForm = () => {
 			<Divider sx={{m: '40px auto', width: '100%'}} />
 			<ButtonOriginal
 				extraStyles={{
-					m: '20px auto',
+					m: {xs: '0px auto', md: '20px auto'},
 					width: '150px',
 				}}
-				text={isEdit ? 'edit' : 'create'}
+				text={
+					isEdit ? `${t('CreateForm.button1')}` : `${t('CreateForm.button0')}`
+				}
 				type={ButtonTypes.SUBMIT}
 			/>
 		</Box>

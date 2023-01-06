@@ -1,5 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 
+import {useTranslation} from 'react-i18next';
+
 import {Box, Typography, Chip} from '@mui/material';
 import TagIcon from '@mui/icons-material/Tag';
 import {ReviewCard} from '../components/ReviewCard/ReviewCard';
@@ -17,6 +19,8 @@ export const HomePage: FC = () => {
 	const [tags, setTags] = useState<string[]>([]);
 	const [clickedTag, setClickedTag] = useState<string>();
 	const [reviewsByTag, setReviewsByTag] = useState<IReview[]>([]);
+
+	const {t} = useTranslation();
 
 	const fetchAllTags = async () => {
 		const response = await getAllTags();
@@ -54,7 +58,7 @@ export const HomePage: FC = () => {
 			<Typography
 				sx={{mb: '50px', width: '100%', textAlign: 'center', fontSize: '32px'}}
 			>
-				Welcome to ROTTEN
+				{t('Home.0')}
 			</Typography>
 
 			<Box
@@ -81,7 +85,8 @@ export const HomePage: FC = () => {
 					color="error"
 					sx={{mt: '30px', ml: 10, width: '100%', fontSize: '22px'}}
 				>
-					Tagged with #{clickedTag}
+					{t('Home.1')}
+					{clickedTag}
 				</Typography>
 			)}
 			<Box
@@ -105,7 +110,7 @@ export const HomePage: FC = () => {
 			</Box>
 
 			<Typography color="error" sx={{ml: 10, width: '100%', fontSize: '22px'}}>
-				The most rated
+				{t('Home.2')}
 			</Typography>
 			<Box
 				sx={{
@@ -135,7 +140,7 @@ export const HomePage: FC = () => {
 					fontSize: '22px',
 				}}
 			>
-				The most recent
+				{t('Home.3')}
 			</Typography>
 			<Box
 				sx={{

@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import ReactMarkdown from 'react-markdown';
 
+import {useTranslation} from 'react-i18next';
+
 import {
 	Badge,
 	Box,
@@ -17,6 +19,7 @@ import {
 	Rating,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TagIcon from '@mui/icons-material/Tag';
 import StarIcon from '@mui/icons-material/Star';
@@ -61,6 +64,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 	} = review;
 
 	const minititle = title.length > 25 ? title.slice(0, 25) + '...' : title;
+
+	const {t} = useTranslation();
 
 	const fetchMyReviews = async () => {
 		const byUser = await getReviewsByUser(author._id);
@@ -169,7 +174,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						color="text.secondary"
 					>
 						{isFull
-							? `${author.email} about '${artPiece.name}'`
+							? `${author.email} ${t('ReviewCard.about')} '${artPiece.name}'`
 							: artPiece.name}
 					</Typography>
 					<Rating
@@ -212,7 +217,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						variant="body2"
 						color="text.secondary"
 					>
-						Author's grade: {grade}/10 {creationDate}
+						{t('ReviewCard.grade')} {grade}/10 {creationDate}
 					</Typography>
 				) : (
 					''
@@ -249,13 +254,19 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 			</CardContent>
 			<CardActions
 				sx={{
-					m: isFull ? '30px 0 30px 30px' : '',
+					m: isFull ? '30px 0 30px 10px' : '',
 					display: isFull || isMine ? 'flex' : '',
 					justifyContent: isFull || isMine ? 'center' : '',
 				}}
 			>
-				{isFull ? <Typography>Enjoy the review? Click here</Typography> : ''}
-				<Badge sx={{ml: '5px'}} badgeContent={likes?.length} color="error">
+				{isFull ? <Typography>{t('ReviewCard.question')}</Typography> : ''}
+				<Badge
+					sx={{
+						mr: isFull ? '20px' : '',
+					}}
+					badgeContent={likes?.length}
+					color="error"
+				>
 					<IconButton
 						sx={{
 							color: user.likedReviews?.includes(review?._id) ? 'red' : '',
@@ -266,15 +277,15 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 					</IconButton>
 				</Badge>
 
-				{isFull ? <Typography>or go</Typography> : ''}
+				{isFull ? <Typography>{t('ReviewCard.or')}</Typography> : ''}
 
 				{isFull ? (
 					<ButtonLink
 						extraStyles={{
 							ml: '5px',
-							width: '160px',
+							width: {xs: '100px', md: '180px'},
 						}}
-						text="back to home page"
+						text={t('ReviewCard.back')}
 						path={AppRoutes.HOME}
 						variant={ButtonVariants.TEXT}
 					/>
@@ -284,7 +295,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 							ml: '10px',
 							width: '100px',
 						}}
-						text="read more"
+						text={t('ReviewCard.more')}
 						path={AppRoutes.HOME + 'review-full' + `/${_id}`}
 						variant={ButtonVariants.TEXT}
 					/>
@@ -300,11 +311,13 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 						<IconButton onClick={deleteReview}>
 							<DeleteIcon fontSize="small" />
 						</IconButton>
-						<ButtonLink
-							text="edit"
-							path={AppRoutes.HOME + 'review-create' + `/${_id}`}
-							variant={ButtonVariants.TEXT}
-						/>
+						<IconButton
+							onClick={() =>
+								navigate(AppRoutes.HOME + 'review-create' + `/${_id}`)
+							}
+						>
+							<ModeEditIcon fontSize="small" />
+						</IconButton>
 					</Box>
 				) : (
 					''

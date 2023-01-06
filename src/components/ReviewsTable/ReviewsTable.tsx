@@ -2,8 +2,11 @@ import React, {FC, useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks/redux';
 import {useNavigate} from 'react-router-dom';
 
+import {useTranslation} from 'react-i18next';
+
 import {Box, Card, IconButton, Typography} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import {
 	DataGrid,
 	GridColDef,
@@ -18,8 +21,6 @@ import {
 } from '../../services/ReviewService';
 import {ReviewCard} from '../ReviewCard/ReviewCard';
 import {AppRoutes} from '../AppRouter/interface';
-import {ButtonVariants} from '../Button/interface';
-import {ButtonLink} from '../Button/ButtonLink';
 import {ReviewsTableProps} from './interface';
 
 export const ReviewsTable: FC<ReviewsTableProps> = () => {
@@ -28,6 +29,8 @@ export const ReviewsTable: FC<ReviewsTableProps> = () => {
 
 	const {user} = useAppSelector((state) => state.authReducer);
 	const navigate = useNavigate();
+
+	const {t} = useTranslation();
 
 	const fetchMyReviews = async () => {
 		const byUser = await getReviewsByUser(user.id);
@@ -51,22 +54,22 @@ export const ReviewsTable: FC<ReviewsTableProps> = () => {
 		{field: '_id', headerName: 'ID', width: 200},
 		{
 			field: 'author',
-			headerName: 'Author',
-			width: 150,
+			headerName: `${t('Table.0')}`,
+			width: 100,
 			valueGetter: (params: GridValueGetterParams) =>
 				`${params.row.author.email}`,
 		},
-		{field: 'title', headerName: 'Title', width: 150},
+		{field: 'title', headerName: `${t('Table.1')}`, width: 150},
 		{
 			field: 'artPiece',
-			headerName: 'Art piece',
-			width: 100,
+			headerName: `${t('Table.2')}`,
+			width: 150,
 			valueGetter: (params: GridValueGetterParams) =>
 				`${params.row.artPiece.name}`,
 		},
-		{field: 'artGroup', headerName: 'Art group', width: 100},
-		{field: 'text', headerName: 'Text', width: 250},
-		{field: 'grade', headerName: 'Grade', width: 50},
+		{field: 'artGroup', headerName: `${t('Table.3')}`, width: 100},
+		{field: 'text', headerName: `${t('Table.4')}`, width: 250},
+		{field: 'grade', headerName: `${t('Table.5')}`, width: 100},
 	];
 
 	const handleRowClick: GridEventListener<'rowClick'> = (params) => {
@@ -83,7 +86,7 @@ export const ReviewsTable: FC<ReviewsTableProps> = () => {
 					fontSize: '18px',
 				}}
 			>
-				My REVIEWS
+				{t('Table.title')}
 			</Typography>
 			<Card
 				sx={{
@@ -128,12 +131,13 @@ export const ReviewsTable: FC<ReviewsTableProps> = () => {
 						<DeleteIcon />
 					</IconButton>
 
-					<ButtonLink
-						extraStyles={{height: '35px'}}
-						text="edit"
-						path={AppRoutes.HOME + 'review-create'}
-						variant={ButtonVariants.TEXT}
-					/>
+					<IconButton
+						onClick={() =>
+							navigate(AppRoutes.HOME + 'review-create' + `/${arrIds[0]}`)
+						}
+					>
+						<ModeEditIcon fontSize="small" />
+					</IconButton>
 				</Box>
 				<DataGrid
 					sx={{p: '0 20px 0 20px'}}

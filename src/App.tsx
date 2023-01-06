@@ -1,6 +1,6 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC, Suspense, useMemo} from 'react';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
-import {CssBaseline, ThemeProvider} from '@mui/material';
+import {Box, CssBaseline, ThemeProvider} from '@mui/material';
 import {createTheme} from '@mui/material/styles';
 import {themeSettings} from './theme';
 import {RootState} from '../src/redux/store';
@@ -16,9 +16,25 @@ export const App: FC = () => {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Layout>
-				<AppRouter />
-			</Layout>
+			<Suspense
+				fallback={
+					<Box
+						sx={{
+							width: '100%',
+							m: '45vh auto',
+							display: 'flex',
+							justifyContent: 'center',
+							fontSize: '22px',
+						}}
+					>
+						Loading...
+					</Box>
+				}
+			>
+				<Layout>
+					<AppRouter />
+				</Layout>
+			</Suspense>
 		</ThemeProvider>
 	);
 };

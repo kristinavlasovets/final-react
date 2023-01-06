@@ -10,6 +10,7 @@ import {App} from './App';
 import {store} from './redux/store';
 
 import './index.css';
+import './i18n';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement

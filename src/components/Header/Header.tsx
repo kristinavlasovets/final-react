@@ -4,6 +4,7 @@ import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
 import {setMode} from '../../redux/reducers/auth/AuthSlice';
 
 import {useTheme} from '@mui/material/styles';
+import {useTranslation} from 'react-i18next';
 
 import {
 	AppBar,
@@ -18,6 +19,8 @@ import {
 	Tooltip,
 	ButtonGroup,
 	Button,
+	TextField,
+	InputAdornment,
 } from '@mui/material';
 
 import {
@@ -35,9 +38,13 @@ import {ButtonVariants} from '../Button/interface';
 
 export const Header: FC = () => {
 	const theme = useTheme();
+	const {t, i18n} = useTranslation();
 
 	const handleTheme = () => {
 		dispatch(setMode());
+	};
+	const changeLanguage = (language: string) => {
+		i18n.changeLanguage(language);
 	};
 
 	const {isAuth} = useAppSelector((state) => state.authReducer);
@@ -80,14 +87,25 @@ export const Header: FC = () => {
 						}}
 					>
 						<ButtonGroup variant="text" color="error" size="small">
-							<Button>en</Button>
-							<Button>ru</Button>
+							<Button onClick={() => changeLanguage('en')}>en</Button>
+							<Button onClick={() => changeLanguage('ru')}>ru</Button>
 						</ButtonGroup>
 
-						<SearchIcon />
-						<InputBase
-							placeholder="Search…"
-							inputProps={{'aria-label': 'search'}}
+						<TextField
+							sx={{
+								ml: {xs: '5px', md: '25px'},
+								width: {xs: '100px', md: '230px'},
+							}}
+							placeholder={`${t('Search.placeholder')}`}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<SearchIcon />
+									</InputAdornment>
+								),
+							}}
+							color="error"
+							variant="standard"
 						/>
 					</Box>
 
@@ -101,7 +119,7 @@ export const Header: FC = () => {
 									m: '3px 5px 0 0',
 									lineHeight: '16px',
 								}}
-								text="sign in"
+								text={t('Menu.signin')}
 								path={AppRoutes.SIGNIN}
 								variant={ButtonVariants.CONTAINED}
 							/>
@@ -115,7 +133,7 @@ export const Header: FC = () => {
 							)}
 						</IconButton>
 
-						<Tooltip title="Account settings">
+						<Tooltip title={t('Menu.label')}>
 							<IconButton
 								onClick={handleClick}
 								size="small"
@@ -124,7 +142,7 @@ export const Header: FC = () => {
 								aria-haspopup="true"
 								aria-expanded={open ? 'true' : undefined}
 							>
-								<Avatar sx={{width: 32, height: 32}}>U</Avatar>
+								<Avatar sx={{width: 32, height: 32}}>{t('Menu.title')}</Avatar>
 							</IconButton>
 						</Tooltip>
 
@@ -170,7 +188,7 @@ export const Header: FC = () => {
 										width: '100%',
 										height: '20px',
 									}}
-									text="My Account"
+									text={t('Menu.0')}
 									path={
 										isAuth ? `${AppRoutes.USER_ACCOUNT}` : `${AppRoutes.SIGNIN}`
 									}
@@ -185,7 +203,7 @@ export const Header: FC = () => {
 										width: '100%',
 										height: '20px',
 									}}
-									text="Create a review"
+									text={t('Menu.1')}
 									path={
 										isAuth
 											? `${AppRoutes.REVIEW_CREATE}`
@@ -199,7 +217,7 @@ export const Header: FC = () => {
 									<ListItemIcon>
 										<Logout fontSize="small" />
 									</ListItemIcon>
-									Sign out
+									{t('Menu.2')}
 								</MenuItem>
 							) : (
 								''

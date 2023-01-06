@@ -4,6 +4,8 @@ import {io} from 'socket.io-client';
 import type {Socket} from 'socket.io-client';
 import {useAppSelector} from '../hooks/redux';
 
+import {useTranslation} from 'react-i18next';
+
 import {Box, TextField} from '@mui/material';
 import {ReviewRelated} from '../components/ReviewRelated/ReviewRelated';
 import {Comment} from '../components/Comments/Comment';
@@ -28,6 +30,8 @@ export const ReviewFullPage = () => {
 	const {id} = useParams();
 
 	const {user, isAuth} = useAppSelector((state) => state.authReducer);
+
+	const {t} = useTranslation();
 
 	const fetchExactReview = async () => {
 		const response = await getExactReview(id!);
@@ -172,13 +176,13 @@ export const ReviewFullPage = () => {
 									sx={{width: 800, mb: '20px', p: '15px'}}
 									value={name}
 									onChange={handleName}
-									placeholder="Add your name..."
+									placeholder={`${t('Comment.name')}`}
 								/>
 								<TextField
 									sx={{width: 800}}
 									value={commentValue}
 									onChange={handleCommentValue}
-									placeholder="Add a comment..."
+									placeholder={`${t('Comment.placeholder')}`}
 									multiline
 									rows={3}
 								/>
@@ -190,7 +194,7 @@ export const ReviewFullPage = () => {
 										borderColor: 'lightgrey',
 										color: 'grey',
 									}}
-									text="cancel"
+									text={t('Comment.cancel')}
 									onClick={clearCommentValue}
 								/>
 								<ButtonOriginal
@@ -198,7 +202,7 @@ export const ReviewFullPage = () => {
 										m: '20px auto',
 										width: '100px',
 									}}
-									text="comment"
+									text={t('Comment.comment')}
 									type={ButtonTypes.SUBMIT}
 								/>
 							</Box>

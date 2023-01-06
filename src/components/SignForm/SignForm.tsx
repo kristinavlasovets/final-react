@@ -1,8 +1,10 @@
 import React, {FC} from 'react';
 
 import {SubmitHandler, useForm} from 'react-hook-form';
-
+import {useAppDispatch} from '../../hooks/redux';
 import {AppRoutes} from '../AppRouter/interface';
+
+import {useTranslation} from 'react-i18next';
 
 import {Box, TextField, Typography} from '@mui/material';
 
@@ -13,7 +15,6 @@ import {SignFormProps, FormData} from './interface';
 import {auth, provider} from '../../firebase';
 import {signInWithPopup} from 'firebase/auth';
 import axios from 'axios';
-import {useAppDispatch} from '../../hooks/redux';
 
 export const SignForm: FC<SignFormProps> = ({
 	isSignup = false,
@@ -27,6 +28,8 @@ export const SignForm: FC<SignFormProps> = ({
 	} = useForm<FormData>({mode: 'onBlur'});
 
 	const dispatch = useAppDispatch();
+
+	const {t} = useTranslation();
 
 	const onSubmit: SubmitHandler<FormData> = (data) => {
 		const {email, password} = data;
@@ -63,7 +66,7 @@ export const SignForm: FC<SignFormProps> = ({
 			<Typography
 				sx={{mb: '50px', width: '100%', textAlign: 'center', fontSize: '32px'}}
 			>
-				{isSignup ? 'Sign up' : 'Sign in'} for ROTTEN
+				{isSignup ? `${t('SignIn.title1')}` : `${t('SignIn.title0')}`}
 			</Typography>
 
 			{/* SOCIAL APP */}
@@ -88,27 +91,35 @@ export const SignForm: FC<SignFormProps> = ({
 				{...register('email', {required: true})}
 				name="email"
 				type="text"
-				label="email"
+				label={t('SignIn.0')}
 				variant="outlined"
 				color="error"
 				aria-invalid={errors.email ? 'true' : 'false'}
 			/>
 			{errors.email?.type === 'required' && (
-				<p role="alert">Email is required</p>
+				<p role="alert">
+					{t('SignIn.0')} {t('SignIn.alert')}
+				</p>
 			)}
 			<TextField
 				sx={{mt: '10px'}}
-				{...register('password', {required: 'Password is required'})}
+				{...register('password', {
+					required: true,
+				})}
 				name="password"
 				type="password"
-				label="password"
+				label={t('SignIn.1')}
 				variant="outlined"
 				color="error"
 				aria-invalid={errors.password ? 'true' : 'false'}
 			/>
-			{errors.password && <p role="alert">{errors.password?.message}</p>}
+			{errors.password && (
+				<p role="alert">
+					{t('SignIn.1')} {t('SignIn.alert')}
+				</p>
+			)}
 			<ButtonOriginal
-				text={isSignup ? 'sign up' : 'sign in'}
+				text={isSignup ? `${t('SignIn.signup')}` : `${t('SignIn.signin')}`}
 				type={ButtonTypes.SUBMIT}
 				variant={ButtonVariants.CONTAINED}
 				extraStyles={{
@@ -120,13 +131,13 @@ export const SignForm: FC<SignFormProps> = ({
 			/>
 			<Box sx={{display: 'flex', justifyContent: 'center'}}>
 				<Typography sx={{mt: '10px'}}>
-					{!isSignup ? 'No account yet?' : 'Already have an account?'}
+					{!isSignup ? `${t('SignIn.question0')}` : `${t('SignIn.question1')}`}
 				</Typography>{' '}
 				<Link
 					style={{margin: '10px'}}
 					to={!isSignup ? AppRoutes.SIGNUP : AppRoutes.SIGNIN}
 				>
-					{!isSignup ? 'Sign up' : 'Sign in'}
+					{!isSignup ? `${t('SignIn.signup')}` : `${t('SignIn.signin')}`}
 				</Link>
 			</Box>
 		</Box>
