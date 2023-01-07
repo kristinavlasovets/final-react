@@ -7,7 +7,7 @@ import {useAppSelector} from '../hooks/redux';
 import {useTranslation} from 'react-i18next';
 
 import {Box, TextField} from '@mui/material';
-import {ReviewRelated} from '../components/ReviewRelated/ReviewRelated';
+
 import {Comment} from '../components/Comments/Comment';
 import {ButtonOriginal} from '../components/Button/ButtonOriginal';
 import {ButtonTypes} from '../components/Button/interface';
@@ -16,7 +16,7 @@ import {ReviewCard} from '../components/ReviewCard/ReviewCard';
 import {IReview} from '../models/IReview';
 import {IComment} from '../models/IComment';
 
-import {getExactReview} from '../services/ReviewService';
+import {getExactReview, getRelatedReviews} from '../services/ReviewService';
 import {createComment, getComments} from '../services/CommentService';
 
 export const ReviewFullPage = () => {
@@ -24,6 +24,7 @@ export const ReviewFullPage = () => {
 	const [commentValue, setCommentValue] = useState('');
 	const [name, setName] = useState('');
 	const [exactReview, setExactReview] = useState({} as IReview);
+	const [relatedReviews, setRelatedReviews] = useState<IReview[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [socket, setSocket] = useState<Socket | null>(null);
 
@@ -44,10 +45,19 @@ export const ReviewFullPage = () => {
 		setComments(response.data);
 	};
 
+	const fetchRelatedReviews = async () => {
+		const response = await getRelatedReviews(exactReview.artPiece!._id!);
+		setRelatedReviews(response.data);
+	};
+
 	useEffect(() => {
 		fetchExactReview();
 		fetchComments();
 	}, []);
+
+	useEffect(() => {
+		fetchRelatedReviews();
+	}, [exactReview]);
 
 	useEffect(() => {
 		setSocket(io(process.env.REACT_APP_SOCKET_URL!));
@@ -140,6 +150,7 @@ export const ReviewFullPage = () => {
 		>
 			<Box
 				sx={{
+					p: '30px 0 0 30px',
 					display: 'flex',
 					flexDirection: 'column',
 				}}
@@ -231,7 +242,13 @@ export const ReviewFullPage = () => {
 					justifyContent: 'space-around',
 				}}
 			>
-				<ReviewRelated exactReview={exactReview} />
+				<Box>
+					{relatedReviews
+						.filter((review) => review._id !== exactReview._id)
+						.map((review) => (
+							<ReviewCard review={review} key={review._id} />
+						))}
+				</Box>
 			</Box>
 		</Box>
 	);

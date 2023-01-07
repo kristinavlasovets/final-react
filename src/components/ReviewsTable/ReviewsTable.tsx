@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks/redux';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 import {useTranslation} from 'react-i18next';
 
@@ -27,13 +27,15 @@ export const ReviewsTable: FC<ReviewsTableProps> = () => {
 	const [reviewsByUser, setReviewsByUser] = useState<IReview[]>([]);
 	const [arrIds, setArrIds] = useState<GridRowId[]>([]);
 
-	const {user} = useAppSelector((state) => state.authReducer);
+	const {user, isAdmin} = useAppSelector((state) => state.authReducer);
 	const navigate = useNavigate();
 
 	const {t} = useTranslation();
 
+	const {id} = useParams();
+
 	const fetchMyReviews = async () => {
-		const byUser = await getReviewsByUser(user.id);
+		const byUser = await getReviewsByUser(isAdmin ? id! : user.id!);
 		setReviewsByUser(byUser.data);
 	};
 

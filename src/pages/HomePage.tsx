@@ -55,9 +55,7 @@ export const HomePage: FC = () => {
 				justifyContent: 'center',
 			}}
 		>
-			<Typography
-				sx={{mb: '50px', width: '100%', textAlign: 'center', fontSize: '32px'}}
-			>
+			<Typography sx={{mb: '50px', textAlign: 'center', fontSize: '32px'}}>
 				{t('Home.0')}
 			</Typography>
 
@@ -83,7 +81,7 @@ export const HomePage: FC = () => {
 			{clickedTag && (
 				<Typography
 					color="error"
-					sx={{mt: '30px', ml: 10, width: '100%', fontSize: '22px'}}
+					sx={{mt: '30px', pl: '100px', fontSize: '22px'}}
 				>
 					{t('Home.1')}
 					{clickedTag}
@@ -109,7 +107,7 @@ export const HomePage: FC = () => {
 				))}
 			</Box>
 
-			<Typography color="error" sx={{ml: 10, width: '100%', fontSize: '22px'}}>
+			<Typography color="error" sx={{fontSize: '22px', pl: '100px'}}>
 				{t('Home.2')}
 			</Typography>
 			<Box
@@ -135,8 +133,7 @@ export const HomePage: FC = () => {
 				color="error"
 				sx={{
 					mt: '100px',
-					ml: 10,
-					width: '100%',
+					pl: '100px',
 					fontSize: '22px',
 				}}
 			>

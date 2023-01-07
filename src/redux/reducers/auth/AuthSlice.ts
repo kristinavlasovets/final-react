@@ -10,6 +10,7 @@ interface AuthState {
 	user: IUser;
 	isAuth: boolean;
 	isLoading: boolean;
+	isAdmin: boolean;
 	error: string;
 }
 
@@ -18,6 +19,7 @@ const initialState: AuthState = {
 	user: {} as IUser,
 	isAuth: false,
 	isLoading: false,
+	isAdmin: false,
 	error: '',
 };
 
@@ -27,6 +29,9 @@ export const authSlice = createSlice({
 	reducers: {
 		setMode: (state) => {
 			state.mode = state.mode === 'light' ? 'dark' : 'light';
+		},
+		setAdmin: (state) => {
+			state.isAdmin = state.user.role === 'admin' ? true : false;
 		},
 		like: (state, action: PayloadAction<string>) => {
 			if (state.user.likedReviews.includes(action.payload)) {
@@ -103,6 +108,6 @@ export const authSlice = createSlice({
 	},
 });
 
-export const {like, setMode} = authSlice.actions;
+export const {like, setMode, setAdmin} = authSlice.actions;
 
 export default authSlice.reducer;

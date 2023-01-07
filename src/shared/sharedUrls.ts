@@ -8,6 +8,10 @@ export const sharedAuthUrls = {
 	LOGOUT_URL: '/logout',
 };
 
+export const sharedUserUrls = {
+	USERS_URL: '/users',
+};
+
 export const sharedReviewsUrls = {
 	REVIEWS_URL: '/reviews',
 	ALL_TAGS_URL: '/tags',

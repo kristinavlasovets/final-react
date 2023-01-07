@@ -24,6 +24,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import TagIcon from '@mui/icons-material/Tag';
 import StarIcon from '@mui/icons-material/Star';
 
+import defaultImage from '../../assets/images/default-image.jpeg';
+
 import {AppRoutes} from '../AppRouter/interface';
 import {ReviewCardProps} from './interface';
 import {ButtonLink} from '../Button/ButtonLink';
@@ -64,6 +66,10 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 	} = review;
 
 	const minititle = title.length > 25 ? title.slice(0, 25) + '...' : title;
+	const miniArtPiece =
+		artPiece.name.length > 25
+			? artPiece.name.slice(0, 25) + '...'
+			: artPiece.name;
 
 	const {t} = useTranslation();
 
@@ -126,13 +132,12 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 				maxWidth: isFull ? '90vw' : 300,
 				width: isFull ? 900 : 250,
 				mb: '30px',
-				m: isFull ? '45px' : '',
 			}}
 		>
 			<CardMedia
 				component="img"
 				height={isFull ? '600' : '200'}
-				image={image}
+				image={image ? image : defaultImage}
 				alt="artPiece"
 			/>
 			<CardContent
@@ -150,35 +155,31 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 				>
 					{isFull ? title : minititle}
 				</Typography>
+				{userTotalLikes && isFull ? (
+					<Badge sx={{mr: '15px'}} badgeContent={userTotalLikes} color="error">
+						<FavoriteIcon fontSize="large" sx={{color: 'red'}} />
+					</Badge>
+				) : (
+					''
+				)}
+				<Typography
+					sx={{
+						fontSize: isFull ? '18px' : '',
+					}}
+					variant="body2"
+					color="text.secondary"
+				>
+					{isFull
+						? `${author.email} ${t('ReviewCard.about')} '${artPiece.name}'`
+						: miniArtPiece}
+				</Typography>
 				<Box
 					sx={{
 						display: 'flex',
+						mt: '10px',
 					}}
 				>
-					{userTotalLikes && isFull ? (
-						<Badge
-							sx={{mr: '15px'}}
-							badgeContent={userTotalLikes}
-							color="error"
-						>
-							<FavoriteIcon fontSize="large" sx={{color: 'red'}} />
-						</Badge>
-					) : (
-						''
-					)}
-					<Typography
-						sx={{
-							fontSize: isFull ? '18px' : '',
-						}}
-						variant="body2"
-						color="text.secondary"
-					>
-						{isFull
-							? `${author.email} ${t('ReviewCard.about')} '${artPiece.name}'`
-							: artPiece.name}
-					</Typography>
 					<Rating
-						sx={{ml: isFull ? '20px' : '10px'}}
 						name="hover-feedback"
 						size={isFull ? 'medium' : 'small'}
 						value={value}

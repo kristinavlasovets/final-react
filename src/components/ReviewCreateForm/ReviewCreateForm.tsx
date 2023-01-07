@@ -26,6 +26,7 @@ import {ImageBlock} from '../ImageBlock/ImageBlock';
 import {createArtPiece, getAllArtPieces} from '../../services/ArtPieceService';
 import {
 	createReviews,
+	getAllTags,
 	getExactReview,
 	updateReviews,
 } from '../../services/ReviewService';
@@ -46,7 +47,7 @@ export const ReviewCreateForm = () => {
 	const [artGroup, setArtGroup] = useState<string | null>(null);
 	const [text, setText] = useState<string>('');
 	const [grade, setGrade] = useState<string>('');
-	const [tagOptions, setTagOptions] = useState<string[]>(['Cool', 'Awesome']);
+	const [tagOptions, setTagOptions] = useState<string[]>([]);
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string | null>(null);
 
@@ -67,6 +68,15 @@ export const ReviewCreateForm = () => {
 		const response = await getAllArtPieces();
 		setArtPieces(response.data);
 	};
+	const fetchAllTags = async () => {
+		const response = await getAllTags();
+		setTagOptions(response.data);
+	};
+
+	useEffect(() => {
+		fetchArtPieces();
+		fetchAllTags();
+	}, []);
 
 	const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -108,10 +118,6 @@ export const ReviewCreateForm = () => {
 		navigate(AppRoutes.HOME);
 		return;
 	};
-
-	useEffect(() => {
-		fetchArtPieces();
-	}, []);
 
 	const fetchExactReview = async () => {
 		const response = await getExactReview(id!);
@@ -221,7 +227,7 @@ export const ReviewCreateForm = () => {
 			/>
 			<TextareaAutosize
 				style={{
-					width: '97%',
+					width: '100%',
 					padding: '10px',
 					fontSize: '18px',
 					fontFamily: 'inherit',

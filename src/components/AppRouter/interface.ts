@@ -8,6 +8,7 @@ import {ReviewFullPage} from '../../pages/ReviewFullPage';
 import {SignInPage} from '../../pages/SignInPage';
 import {SignUpPage} from '../../pages/SignUpPage';
 import {UserAccountPage} from '../../pages/UserAccountPage';
+import {AdminPage} from '../../pages/AdminPage';
 
 export interface IRoute {
 	path: string;
@@ -24,6 +25,8 @@ export enum AppRoutes {
 	REVIEW_FULL = '/review-full/:id',
 	REVIEW_EDIT = '/review-create/:id',
 	USER_ACCOUNT = '/user-account',
+	USER_ACCOUNT_AS_ADMIN = '/user-account/:id',
+	ADMIN_PAGE = '/admin-page',
 }
 
 export const publicAppRoutes: IRoute[] = [
@@ -36,4 +39,6 @@ export const publicAppRoutes: IRoute[] = [
 	{path: AppRoutes.REVIEW_FULL, element: ReviewFullPage},
 	{path: AppRoutes.REVIEW_EDIT, element: ReviewCreatePage},
 	{path: AppRoutes.USER_ACCOUNT, element: UserAccountPage},
+	{path: AppRoutes.USER_ACCOUNT_AS_ADMIN, element: UserAccountPage},
+	{path: AppRoutes.ADMIN_PAGE, element: AdminPage},
 ];
