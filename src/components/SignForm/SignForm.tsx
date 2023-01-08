@@ -12,9 +12,6 @@ import {ButtonOriginal} from '../Button/ButtonOriginal';
 import {ButtonTypes, ButtonVariants} from '../Button/interface';
 import {Link} from 'react-router-dom';
 import {SignFormProps, FormData} from './interface';
-import {auth, provider} from '../../firebase';
-import {signInWithPopup} from 'firebase/auth';
-import axios from 'axios';
 
 export const SignForm: FC<SignFormProps> = ({
 	isSignup = false,
@@ -37,22 +34,6 @@ export const SignForm: FC<SignFormProps> = ({
 		reset();
 	};
 
-	// const signInWithGoogle = async () => {
-	// 	signInWithPopup(auth, provider)
-	// 		.then((result) => {
-	// 			axios
-	// 				.post('/api/login/google', {
-	// 					email: result.user.displayName,
-	// 				})
-	// 				.then((res) => {
-	// 					return res.data;
-	// 				});
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log('Sign in with Google error');
-	// 		});
-	// };
-
 	return (
 		<Box
 			sx={{
@@ -69,24 +50,6 @@ export const SignForm: FC<SignFormProps> = ({
 				{isSignup ? `${t('SignIn.title1')}` : `${t('SignIn.title0')}`}
 			</Typography>
 
-			{/* SOCIAL APP */}
-			{/* {isSignup ? (
-				''
-			) : (
-				<ButtonOriginal
-					extraStyles={{
-						mb: '40px',
-						width: '100%',
-						fontSize: '16px',
-						fontWeight: 600,
-					}}
-					text={'sign in with Google'}
-					type={ButtonTypes.BUTTON}
-					variant={ButtonVariants.CONTAINED}
-					onClick={signInWithGoogle}
-				/>
-			)} */}
-			{/* SOCIAL APP */}
 			<TextField
 				{...register('email', {required: true})}
 				name="email"
