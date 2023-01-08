@@ -85,7 +85,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 	useEffect(() => {
 		let totalNumber: number = +review.artPiece.totalRating!;
 		setValue(totalNumber!);
-		fetchMyReviews();
+		isFull && fetchMyReviews();
 	}, []);
 
 	const handleLike = async () => {

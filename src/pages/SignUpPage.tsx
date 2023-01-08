@@ -20,7 +20,15 @@ export const SignUpPage: FC = () => {
 
 	if (isAuth) return <Navigate to={AppRoutes.HOME} />;
 	return (
-		<Box sx={{mt: '20vh', w: 700, display: 'flex', justifyContent: 'center'}}>
+		<Box
+			sx={{
+				m: '20vh auto',
+				width: '350px',
+				maxWidth: '90vw',
+				display: 'flex',
+				justifyContent: 'center',
+			}}
+		>
 			<SignForm isSignup={true} signFormSubmit={signup} />
 		</Box>
 	);

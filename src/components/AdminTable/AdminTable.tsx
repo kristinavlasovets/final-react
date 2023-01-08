@@ -99,18 +99,13 @@ export const AdminTable: FC<AdminTableProps> = () => {
 		{field: '_id', headerName: 'ID', width: 100},
 		{
 			field: 'email',
-			headerName: 'Email',
+			headerName: `${t('AdminTable.0')}`,
 			width: 150,
 		},
-		{field: 'status', headerName: 'Status', width: 150},
-		{field: 'role', headerName: 'Role', width: 100},
-		{field: 'updatedAt', headerName: 'Last update', width: 250},
+		{field: 'status', headerName: `${t('AdminTable.1')}`, width: 150},
+		{field: 'role', headerName: `${t('AdminTable.2')}`, width: 100},
+		{field: 'updatedAt', headerName: `${t('AdminTable.3')}`, width: 250},
 	];
-
-	// const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-	// 	navigate(AppRoutes.USER_ACCOUNT + `/${params.row._id}`);
-	// 	return;
-	// };
 
 	return (
 		<Box
@@ -130,28 +125,28 @@ export const AdminTable: FC<AdminTableProps> = () => {
 			>
 				<IconButton
 					onClick={() => navigate(AppRoutes.USER_ACCOUNT + `/${arrIds[0]}`)}
-					title="User account"
+					title={`${t('AdminTable.4')}`}
 				>
 					<RemoveRedEye />
 				</IconButton>
 
-				<IconButton onClick={deleteUser} title="Delete user">
+				<IconButton onClick={deleteUser} title={`${t('AdminTable.5')}`}>
 					<DeleteIcon />
 				</IconButton>
 
-				<IconButton onClick={blockUser} title="Block user">
+				<IconButton onClick={blockUser} title={`${t('AdminTable.5')}`}>
 					<BlockIcon />
 				</IconButton>
 
-				<IconButton onClick={unblockUser} title="Unblock user">
+				<IconButton onClick={unblockUser} title={`${t('AdminTable.6')}`}>
 					<AddCircleOutlineIcon />
 				</IconButton>
 
-				<IconButton onClick={makeAdmin} title="Set as admin">
+				<IconButton onClick={makeAdmin} title={`${t('AdminTable.7')}`}>
 					<Psychology />
 				</IconButton>
 
-				<IconButton onClick={makeUser} title="Set as user">
+				<IconButton onClick={makeUser} title={`${t('AdminTable.8')}`}>
 					<PsychologyAlt />
 				</IconButton>
 			</Box>

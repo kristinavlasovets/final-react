@@ -26,7 +26,9 @@
 		"signin": "Sign in",
 		"signup": "Sign up",
 		"question0": "No account yet?",
-		"question1": "Already have an account?"
+		"question1": "Already have an account?",
+		"google": "Sign in with Google",
+		"gitHub": "Sign in with GitHub"
 	},
 	"ReviewCard": {
 		"more": "read more",
@@ -58,11 +60,23 @@
 	},
 	"Table": {
 		"title": "My reviews",
-		"0": "Athor",
+		"0": "Author",
 		"1": "Title",
 		"2": "Art piece",
 		"3": "Art group",
 		"4": "Text",
 		"5": "Grade"
+	},
+	"AdminTable": {
+		"0": "Email",
+		"1": "Status",
+		"2": "Role",
+		"3": "Last update",
+		"4": "User account",
+		"5": "Delete user",
+		"6": "Block user",
+		"7": "Unblock user",
+		"8": "Set as admin",
+		"9": "Set as user"
 	}
 }

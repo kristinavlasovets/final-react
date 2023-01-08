@@ -56,7 +56,7 @@ export const ReviewFullPage = () => {
 	}, []);
 
 	useEffect(() => {
-		fetchRelatedReviews();
+		exactReview.artPiece && fetchRelatedReviews();
 	}, [exactReview]);
 
 	useEffect(() => {
