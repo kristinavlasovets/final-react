@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Action} from '@remix-run/router';
 import {IUser} from '../../../models/IUser';
 import {loginThunk} from './thunks/loginThunk';
 import {logoutThunk} from './thunks/logoutThunk';

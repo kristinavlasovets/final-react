@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {logoutThunk} from '../../redux/reducers/auth/thunks/logoutThunk';
 import {setMode, setAdmin} from '../../redux/reducers/auth/AuthSlice';
@@ -21,6 +21,7 @@ import {
 	Button,
 	TextField,
 	InputAdornment,
+	Autocomplete,
 } from '@mui/material';
 
 import {
@@ -36,8 +37,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import {ButtonLink} from '../Button/ButtonLink';
 import {AppRoutes} from '../AppRouter/interface';
 import {ButtonVariants} from '../Button/interface';
+import {IReview} from '../../models/IReview';
+import {getReviewsBySearch} from '../../services/ReviewService';
+import {useNavigate} from 'react-router-dom';
 
 export const Header: FC = () => {
+	const [search, setSearch] = useState<string>('');
+	const [reviewsBySearch, setReviewsBySearch] = useState<IReview[]>([]);
 	const theme = useTheme();
 	const {t, i18n} = useTranslation();
 
@@ -46,6 +52,8 @@ export const Header: FC = () => {
 	};
 
 	const {isAuth, isAdmin} = useAppSelector((state) => state.authReducer);
+
+	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -66,6 +74,14 @@ export const Header: FC = () => {
 
 	const handleTheme = () => {
 		dispatch(setMode());
+	};
+
+	const handleSearch = async () => {
+		const response = await getReviewsBySearch(search);
+		console.log(response.data);
+		setReviewsBySearch(response.data);
+		setSearch('');
+		navigate(AppRoutes.REVIEWS_BY_SEARCH, {state: response.data});
 	};
 
 	return (
@@ -93,11 +109,13 @@ export const Header: FC = () => {
 								ml: {xs: '5px', md: '25px'},
 								width: {xs: '100px', md: '230px'},
 							}}
+							value={search}
+							onChange={(e) => setSearch(e.target.value)}
 							placeholder={`${t('Search.placeholder')}`}
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
-										<SearchIcon />
+										<SearchIcon onClick={handleSearch} />
 									</InputAdornment>
 								),
 							}}

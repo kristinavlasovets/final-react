@@ -4,8 +4,8 @@ export const IMAGE_DROP_URL = process.env.REACT_APP_IMAGE_HOST_URL;
 export const sharedAuthUrls = {
 	REGISTER_URL: '/registration',
 	LOGIN_URL: '/login',
-	// GOOGE_LOGIN_URL: '/login/google',
 	LOGOUT_URL: '/logout',
+	REFRESH_TOKEN: '/refresh',
 };
 
 export const sharedUserUrls = {
@@ -20,6 +20,7 @@ export const sharedReviewsUrls = {
 	BY_TAG_REVIEWS_URL: '/by-tag-reviews',
 	BY_USER_REVIEWS_URL: '/by-user-reviews',
 	BY_ART_PIECE_REVIEWS_URL: '/by-artpiece-reviews',
+	BY_SEARCH_REVIEWS_URL: '/by-search-reviews',
 	COMMENTS_URL: '/comments',
 };
 

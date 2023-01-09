@@ -1,5 +1,5 @@
 import api from '../http';
-import {AxiosResponse} from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {IReview} from '../models/IReview';
 import {sharedReviewsUrls} from '../shared/sharedUrls';
 import {GridRowId} from '@mui/x-data-grid';
@@ -95,4 +95,15 @@ export const deleteExactReview = async (
 	id: string | GridRowId
 ): Promise<AxiosResponse<IReview>> => {
 	return api.delete(sharedReviewsUrls.REVIEWS_URL + `/${id}`);
+};
+
+export const getReviewsBySearch = async (
+	query: string
+): Promise<AxiosResponse<IReview[]>> => {
+	return axios.get(
+		process.env.REACT_APP_SERVER_URL +
+			'/api' +
+			sharedReviewsUrls.BY_SEARCH_REVIEWS_URL +
+			`?query=${query}`
+	);
 };

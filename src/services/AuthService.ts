@@ -1,5 +1,5 @@
 import api from '../http';
-import {AxiosResponse} from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {AuthResponse} from '../models/response/AuthResponse';
 import {API_URL, sharedAuthUrls} from '../shared/sharedUrls';
 
@@ -27,3 +27,11 @@ export default class AuthService {
 		return api.post(sharedAuthUrls.LOGOUT_URL);
 	}
 }
+export const refreshToken = async (): Promise<AxiosResponse<AuthResponse>> => {
+	return axios.get(
+		process.env.REACT_APP_SERVER_URL + sharedAuthUrls.REFRESH_TOKEN,
+		{
+			withCredentials: true,
+		}
+	);
+};
