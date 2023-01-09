@@ -13,6 +13,9 @@ import {
 	getReviewsByTag,
 } from '../services/ReviewService';
 
+import {loginViaSocialThunk} from '../redux/reducers/auth/thunks/loginViaSocial';
+import {useAppSelector, useAppDispatch} from '../hooks/redux';
+
 export const HomePage: FC = () => {
 	const [mostRatedReviews, setMostRatedReviews] = useState<IReview[]>([]);
 	const [mostRecentReviews, setMostRecentReviews] = useState<IReview[]>([]);
@@ -20,7 +23,11 @@ export const HomePage: FC = () => {
 	const [clickedTag, setClickedTag] = useState<string>();
 	const [reviewsByTag, setReviewsByTag] = useState<IReview[]>([]);
 
+	const {viaSocial, isAuth} = useAppSelector((state) => state.authReducer);
+
 	const {t} = useTranslation();
+
+	const dispatch = useAppDispatch();
 
 	const fetchAllTags = async () => {
 		const response = await getAllTags();
@@ -43,6 +50,12 @@ export const HomePage: FC = () => {
 	useEffect(() => {
 		fetchReviews();
 		fetchAllTags();
+	}, []);
+
+	useEffect(() => {
+		if (viaSocial && !isAuth) {
+			dispatch(loginViaSocialThunk());
+		}
 	}, []);
 
 	return (

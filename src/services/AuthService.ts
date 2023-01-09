@@ -16,6 +16,9 @@ export default class AuthService {
 		return api.post(API_URL + sharedAuthUrls.REGISTER_URL, {email, password});
 	}
 
+	static async loginViaSocial(): Promise<AxiosResponse<AuthResponse>> {
+		return api.get(sharedAuthUrls.LOGIN_SOCIAL_URL);
+	}
 	static async login(
 		data: registrationInput
 	): Promise<AxiosResponse<AuthResponse>> {

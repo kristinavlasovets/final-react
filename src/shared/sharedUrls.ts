@@ -4,6 +4,7 @@ export const IMAGE_DROP_URL = process.env.REACT_APP_IMAGE_HOST_URL;
 export const sharedAuthUrls = {
 	REGISTER_URL: '/registration',
 	LOGIN_URL: '/login',
+	LOGIN_SOCIAL_URL: '/get-user',
 	LOGOUT_URL: '/logout',
 	REFRESH_TOKEN: '/refresh',
 };

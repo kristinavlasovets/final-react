@@ -13,6 +13,7 @@ import {AppRoutes} from '../components/AppRouter/interface';
 import {SignForm} from '../components/SignForm/SignForm';
 import {ButtonOriginal} from '../components/Button/ButtonOriginal';
 import {ButtonTypes, ButtonVariants} from '../components/Button/interface';
+import {viaSocial} from '../redux/reducers/auth/AuthSlice';
 
 export const SignInPage: FC = () => {
 	const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ export const SignInPage: FC = () => {
 
 	const handleGoogle = () => {
 		window.open(process.env.REACT_APP_SERVER_URL + '/api/auth/google', '_self');
+		dispatch(viaSocial(true));
 	};
 	const handleGitHub = () => {
 		window.open(process.env.REACT_APP_SERVER_URL + '/api/auth/github', '_self');

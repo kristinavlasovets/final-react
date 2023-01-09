@@ -170,7 +170,9 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 					color="text.secondary"
 				>
 					{isFull
-						? `${author.email} ${t('ReviewCard.about')} '${artPiece.name}'`
+						? `${author.email ? author.email : author.role} ${t(
+								'ReviewCard.about'
+						  )} '${artPiece.name}'`
 						: miniArtPiece}
 				</Typography>
 				<Box
