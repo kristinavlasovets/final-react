@@ -1,13 +1,16 @@
 import {Box} from '@mui/material';
 import React, {FC, useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
+
+import {
+	List,
+	ListItem,
+	ListItemText,
+	ListItemAvatar,
+	Avatar,
+	Typography,
+} from '@mui/material';
+
 import {IReview} from '../models/IReview';
 import {AppRoutes} from '../components/AppRouter/interface';
 
@@ -19,8 +22,6 @@ export const ReviewsBySearch: FC = () => {
 	useEffect(() => {
 		setReviewsBySearch(location.state);
 	}, [reviewsBySearch]);
-
-	console.log(reviewsBySearch);
 
 	return (
 		<Box

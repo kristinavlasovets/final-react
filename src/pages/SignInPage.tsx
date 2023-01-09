@@ -66,6 +66,7 @@ export const SignInPage: FC = () => {
 						width: '100%',
 						fontSize: '16px',
 						fontWeight: 600,
+						backgroundColor: 'royalblue',
 					}}
 				/>
 				<ButtonOriginal
@@ -78,6 +79,7 @@ export const SignInPage: FC = () => {
 						width: '100%',
 						fontSize: '16px',
 						fontWeight: 600,
+						backgroundColor: 'black',
 					}}
 				/>
 			</Box>

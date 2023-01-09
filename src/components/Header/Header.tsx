@@ -78,7 +78,6 @@ export const Header: FC = () => {
 
 	const handleSearch = async () => {
 		const response = await getReviewsBySearch(search);
-		console.log(response.data);
 		setReviewsBySearch(response.data);
 		setSearch('');
 		navigate(AppRoutes.REVIEWS_BY_SEARCH, {state: response.data});
